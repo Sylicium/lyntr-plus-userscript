@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.7
+// @version      1.15.8
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.7"
+    const VERSION = "1.15.8-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -66,6 +66,18 @@
     // DO NOT EDIT BELOW THIS LINE
     // ---------------------------
 
+
+    const _VERSION_CHANGELOG_ = {
+        "1.15.8-beta": {
+            "Features": [
+                "Added a changelog page for new updates"
+            ],
+            "Bugs": [
+
+            ]
+        }
+    }
+
     const _CLASSES_ = {
         lyntDiv: "flex w-full gap-3 rounded-xl bg-lynt-foreground p-3 transition-colors hover:bg-border",
         lyntDivReplied: "rounded-lg border-2 border-primary p-4 drop-shadow",
@@ -101,6 +113,56 @@
         .lp-div-username-verified-img-rWzoWbQ2 {
             filter: opacity(0.5) drop-shadow(0 0 0 yellow);
         }
+
+
+@media only screen (min-width: 600px) {
+    .lp-changelog2 {
+      width: 200px !important;
+    }
+}
+
+
+.lp-changelog1 {
+    position: fixed; top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lp-changelog2 {
+    position: fixed;
+    width: 600px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f1f1f1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+
+
+.lp-changelog2 > .primary-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s all;
+}
+.lp-changelog2 > .primary-button:hover {
+    transition: 0.3s all;
+    background-color: #0056b3;
+}
+
+
         `
         document.head.appendChild(InjectedStyle)
     }
@@ -434,7 +496,9 @@
             betaMark.style.color = "rgb(255, 255, 255)"
             betaMark.style.fontWeight = "bold"
             betaMark.style.fontSize = "16px"
-            betaMark.textContent = `Lyntr+ Beta v${VERSION}`
+            betaMark.style.cursor = "pointer"
+            betaMark.innerHTML = `Lyntr+ Beta v${VERSION}`
+            betaMark.onclick = () => { showChangelog() }
 
         let betaMarkUpdate = document.createElement("div")
         if(UpToDate.isAnUpdate) {
@@ -498,4 +562,69 @@
     console.log("%c| Author: Sylicium", css)
     console.log("%c| GitHub: https://github.com/Sylicium/lyntr-plus-userscript", css)
 
+
+
+    function showChangelog() {
+
+        
+        // Display a box the show changelog of new version in the center of the screen
+        let element = document.createElement("div");
+        let list = "0123456789abcdef".split("");
+        let btn_id = `lp-changelog-temp-button-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
+
+
+        let CHANGELOG_TEXT = ""
+        if(_VERSION_CHANGELOG_.hasOwnProperty(VERSION)) {
+            for(let categoryName in _VERSION_CHANGELOG_[VERSION]) {
+                CHANGELOG_TEXT += `<p style="margin-bottom: 10px;">${categoryName}</p>`
+                CHANGELOG_TEXT += `<ul style="margin: 0px 0px 10px 20px;list-style-type: '- ';">`
+                for(let change of _VERSION_CHANGELOG_[VERSION][categoryName]) {
+                    CHANGELOG_TEXT += `<li>${change}</li>`
+                }
+                CHANGELOG_TEXT += `</ul>`
+            }
+        } else {
+            CHANGELOG_TEXT = `<p style="margin-bottom: 10px;">Changelog is missing for this version</p>`
+        }
+
+        element.innerHTML = `
+        <div class="lp-changelog2">
+            <h1 style="font-size: 1.5em; margin-bottom: 10px;text-align:center;">Lyntr+ changelog ${VERSION}</h1>
+
+
+            ${CHANGELOG_TEXT}
+            
+
+            <button class="primary-button" id='${btn_id}'>OK</button>
+            <a class="primary-button" href="https://github.com/Sylicium/lyntr-plus-userscript" target="_BLANK">GitHub</button>
+        </div>
+        `;
+        element.className = "lp-changelog1";
+
+
+
+        document.body.appendChild(element);
+        document.getElementById(btn_id).addEventListener("click", () => {
+            element.remove();
+        })
+
+    }
+
+    function checkAutoDisplayChangelog() {
+        
+        let displayChangelog = false
+        if(localStorage.getItem("lyntr-plus-currentVersion") != VERSION) {
+            displayChangelog = true
+            console.log("New version detected, displaying changelog")
+        }
+        localStorage.setItem("lyntr-plus-currentVersion", VERSION)
+        if(!displayChangelog) return;
+        showChangelog()
+    }
+
+    checkAutoDisplayChangelog()
+
+
 })();
+
+
