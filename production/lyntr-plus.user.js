@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.2
+// @version      1.15.3
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.2"
+    const VERSION = "1.15.3"
 
 
 
@@ -104,35 +104,25 @@
 
 
     /**
-     * Parse message mentions and convert them to links
-     * @returns void
+     * Parse message links and convert them to clickable links
      */
+    async function parseMessageLinks() {
+        let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)].map(x => {
+            return x.parentElement
+        })
 
-    /*
-
-    async function parseMessageMentions() {
-
-        if(!_CONFIG.parseMessageMentions.enabled) return
-
-        // Get all messages elements currently displayed
-        let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)]
-        messages = messages.filter(msg => !msg.classList.contains("lp-spawn-lynt-content-a8rLbG38")) // Filter out the messages temps
-
-
-        // Loop through each message and replace mentions with links
         messages.forEach(msg => {
             try {
-                
-                // Split the message by mentions
-                // Hello @user how you are ? -> ["Hello ", "@user", " how you are ?"]
-                let mentionRegex = /(@[a-zA-Z0-9_]+)/g
-                let parts = msg.textContent.split(mentionRegex)
-                // Transform the mentions into links
+                let first = msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0]
+                let second = msg.getElementsByClassName("lp-lynt-content-second-jBRHEIwW")[0]
+                let text = first.textContent
+                let linkRegex = /(https?:\/\/[^\s]+)/g
+                let parts = text.split(linkRegex)
                 parts = parts.map(part => {
-                    if(part.match(mentionRegex)) {
-                        let username = part.replace("@", "")
+                    if(part.match(linkRegex)) {
                         let elem = document.createElement("a")
-                        elem.href = `https://lyntr.com/@${username}`
+                        elem.href = part
+                        elem.target = "_blank"
                         elem.textContent = part
                         return elem
                     } else {
@@ -141,27 +131,20 @@
                         return elem
                     }
                 })
-                // Join the parts back together
-                msg.innerHTML = ""
+                second.innerHTML = ""
                 parts.forEach(part => {
-                    msg.appendChild(part)
+                    second.appendChild(part)
                 })
-
-
-
-                newMsgElement = document.createElement("span")
-                newMsgElement.className = `${className} lp-spawn-lynt-content-a8rLbG38`
-                
             } catch (error) {
                 console.log(error)
             }
         })
     }
 
-    */
-
-
     
+    /**
+     * Parse message mentions and convert them to links
+     */
     async function parseMessageMentions() {
 
         if(!_CONFIG.parseMessageMentions.enabled) return
@@ -373,12 +356,11 @@
     }
 
 
-
     /**
      * Add a beta mark to the top right corner of the page
      */
     async function betaMark() {
-        if(document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX")) return
+        //if(document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX")) return
 
         function extractVersionNumber(text) {
             const versionRegex = /@version\s+([0-9.]+)/;
@@ -397,12 +379,12 @@
             let lastVersion = extractVersionNumber(lastVersionMetaText)
             if(lastVersion != VERSION) {
                 return {
-                    status: false,
+                    isAnUpdate: true,
                     version: lastVersion
                 }
             } else {
                 return {
-                    status: true,
+                    isAnUpdate: false,
                     version: lastVersion
                 }
             }
@@ -411,17 +393,28 @@
 
         let UpToDate = await isUpToDate()
 
-        let betaBox = document.createElement("div")
-        betaBox.style.position = "fixed"
-        betaBox.style.top = "0"
-        betaBox.style.right = "0"
-        betaBox.style.zIndex = "1000"
-        betaBox.style.display = "flex"
-        betaBox.style.flexDirection = "column"
-        betaBox.style.alignItems = "end"
+        if(UpToDate.isAnUpdate) {
+            console.log(`[Lyntr+] An update is available for Lyntr+ v${UpToDate.version}`)
+            document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX").remove()
+        }
+
+        let betaBox = document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX") || null
+        let doAppendToBody = false
+        if(!betaBox) {
+            doAppendToBody = true
+            betaBox = document.createElement("div")
+            betaBox.id = "lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX"
+            betaBox.style.position = "fixed"
+            betaBox.style.top = "0"
+            betaBox.style.right = "0"
+            betaBox.style.zIndex = "1000"
+            betaBox.style.display = "flex"
+            betaBox.style.flexDirection = "column"
+            betaBox.style.alignItems = "end"
+        }
+        betaBox.innerHTML = ""
 
         let betaMark = document.createElement("div")
-            betaMark.id = "lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX"
             betaMark.style.padding = "5px 10px"
             betaMark.style.backgroundColor = "rgb(0, 0, 0, 0.75)"
             betaMark.style.color = "rgb(255, 255, 255)"
@@ -442,7 +435,7 @@
 
         betaBox.appendChild(betaMark)
         betaBox.appendChild(betaMarkUpdate)
-        document.body.appendChild(betaBox)
+        if(doAppendToBody) { document.body.appendChild(betaBox) }
 
     }
 
@@ -461,12 +454,20 @@
             lyntTransparency()
 
             createCopyButtons()
-            
-            betaMark()
 
             await sleep(250)
         }
-    })()
+    })();
+
+    // Bêta
+    (async function __beta__() {
+        while(true) {
+
+            betaMark()
+
+            await sleep(60*1000)
+        }
+    })();
 
 
 
