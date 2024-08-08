@@ -8,7 +8,7 @@
 
 # How to install ?
  1. Get TamperMonkey for [Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=fr) or [Firefox](https://addons.mozilla.org/fr/firefox/addon/tampermonkey/). Or an alternative like [ViolentMonkey](https://violentmonkey.github.io/)
- 2. Click [here](https://github.com/Sylicium/lyntr-toolbox-script/raw/main/production/lyntr-toolbox.user.js) to download the script 
+ 2. Click [here](https://github.com/Sylicium/lyntr-plus-userscript/raw/main/production/lyntr-plus.user.js) to download the script or go into the Releases on the right, then tags, and download the last version.
 
 # How to update ?
  1. Click the TamperMonkey icon in your browser
