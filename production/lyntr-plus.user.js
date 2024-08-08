@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.3
+// @version      1.15.4
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.3"
+    const VERSION = "1.15.4"
 
 
 
@@ -423,7 +423,7 @@
             betaMark.textContent = `Lyntr+ Beta v${VERSION}`
 
         let betaMarkUpdate = document.createElement("div")
-        if(!UpToDate.status) {
+        if(UpToDate.isAnUpdate) {
             betaMarkUpdate.style.padding = "5px 10px"
             betaMarkUpdate.style.backgroundColor = "rgb(0, 0, 0, 0.75)"
             betaMarkUpdate.style.color = "rgb(255, 255, 255)"
