@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr Toolbox
-// @version      1.6.0
+// @version      1.7.0
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
 // @author       Sylicium

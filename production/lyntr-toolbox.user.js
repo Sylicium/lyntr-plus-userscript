@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr Toolbox
-// @version      1.6.0
+// @version      1.7.0
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
 // @author       Sylicium
@@ -63,7 +63,7 @@
         if(!_CONFIG.parseMessageMentions.enabled) return
 
         // Get all messages elements currently displayed
-        let messages = [...document.getElementsByClassName(_CLASSES_.messageContent)]
+        let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)]
         messages = messages.filter(elem => {
             // Only get messages that haven't been parsed yet
             return !elem.classList.contains(_CONFIG.parseMessageMentions.doneClassName)
@@ -72,22 +72,21 @@
         messages.forEach(msg => {
             try {
                 
-                // Replace @username with a link to the user profile
-                const usernameRegex = /@(\w+)/g;
-                // Get all @users in the message
-                const matches = msg.textContent.match(usernameRegex);
-                if (matches) {
-                    matches.forEach(match => {
-                        // For each, create a link and replace the text with it
-                        const username = match.substring(1);
-                        const link = document.createElement('a');
-                        link.href = `/@${username}`;
-                        link.target = '_blank';
-                        link.textContent = match;
-                        // Replace the text with the link
-                        msg.replaceChild(link, msg.childNodes[0]);
-                    });
-                }
+                // Split the message by mentions
+                // Hello @user how you are ? -> ["Hello ", "@user", " how you are ?"]
+                let mentionRegex = /(@[a-zA-Z0-9_]+)/g
+                let parts = msg.textContent.split(mentionRegex)
+                // Transform the mentions into links
+                parts = parts.map(part => {
+                    if(part.match(mentionRegex)) {
+                        let username = part.replace("@", "")
+                        return `<a href="https://lyntr.com/@${username}">${part}</a>`
+                    }
+                    return `<span>${part}</span>`
+                })
+                // Join the parts back together
+                msg.innerHTML = parts.join("")
+                
                 // Add a class to the message to mark it as parsed
                 msg.classList.add(_CONFIG.parseMessageMentions.doneClassName);
             } catch (error) {
@@ -151,19 +150,23 @@
      */
     async function profileButton() {
         if(!_CONFIG.profileButton.enabled) return
-        document.getElementsByClassName(_CLASSES_.lyntrProfileButton)?.[0]?.style.backgroundColor = _CONFIG.profileButton.color
+        let elem = document.getElementsByClassName(_CLASSES_.lyntrProfileButton)?.[0]
+        if(elem) {
+            elem.style.backgroundColor = _CONFIG.profileButton.color
+        }
     }
 
 
     // Start the toolbox
     (async function __start__() {
         while(true) {
+            
             parseMessageMentions()
             showScriptAuthor()
             showVerified()
+            profileButton()
 
             await sleep(250)
-
         }
     })()
 
