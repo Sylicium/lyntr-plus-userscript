@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.16.1
+// @version      1.16.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.16.1-beta"
+    const VERSION = "1.16.2-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -74,6 +74,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.16.2-beta": {
+            "Fixes": [
+                "Actually fixed copy buttons not working correctly lol",
+            ]
+        },
         "1.16.1-beta": {
             "Fixes": [
                 "Fixed copy buttons not working correctly when the mention parser was disabled",
@@ -508,7 +513,7 @@
                     try {
                     let temp1 = copyButton.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW")
                     if(!temp1) {
-                        temp1 = copyButton.parentElement.parentElement.querySelector(".max-w-[490px] .whitespace-pre-wrap .break-words .text-lg")
+                        temp1 = [...copyButton.parentElement.parentElement.getElementsByClassName("max-w-[490px] whitespace-pre-wrap break-words text-lg")]?.[0]
                     }
                     copyToClipboard(temp1.textContent)
                 } catch (error) {
