@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.1
+// @version      1.17.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.17.1-beta"
+    const VERSION = "1.17.2-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -79,6 +79,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.2-beta": {
+            "Fixes": [
+                "Fixed script crashing on cloudflare error page"
+            ]
+        },
         "1.17.1-beta": {
             "Fixes": [
                 "Update link not always showing the confirm box to reload the page."
@@ -345,7 +350,7 @@
                     
                     sec.classList.add("lp-lynt-content-second-jBRHEIwW")
                     msgContainer.getElementsByClassName(_CLASSES_.lyntrContent)?.[0].classList.add(`lp-lynt-content-first-jBRHEIwW`)
-                    msgContainer.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0].style.display = "none"
+                    msgContainer.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")?.[0].style.display = "none"
                     msgContainer.appendChild(sec)
                 }
 
@@ -434,7 +439,8 @@
         })
         // Change the display when on profile page
         if(document.location.href === document.location.origin + "/@lyntrplus") {
-            document.getElementsByClassName("peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-2xl font-bold text-primary")[0].classList.add("lp-div-username-officialaccount-J115XR3x")
+            let elem = document.getElementsByClassName("peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-2xl font-bold text-primary")?.[0]
+            if(elem) { elem.classList.add("lp-div-username-officialaccount-J115XR3x") }
         }
     }
 
