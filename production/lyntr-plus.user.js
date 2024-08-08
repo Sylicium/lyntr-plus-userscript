@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.9
+// @version      1.16.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.9-beta"
+    const VERSION = "1.16.0-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -58,6 +58,12 @@
             "opacity": 0.7, // How transparent the lynts should be (0 = invisible, 1 = opaque), Default 0.7
             "overrideColor": "", // Should the color be overrided with a custom color ? If not, leave it empty. Default used #EEEBE3
             "doneClassName": "lyntr-plus-lyntTransparency-So3E25ENwU0FkobI", // DO NOT EDIT THIS LINE
+        },
+        "customLogo": {
+            "description": "Change the Lyntr logo to a custom one",
+            "enabled": true,
+            "logoURL": "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/code-assets/logo1.png", // The URL of the logo to set
+            "doneClassName": "lyntr-plus-customLogo-fFbM2sneBym9kXrE", //
         }
     }
 
@@ -68,6 +74,18 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.16.0-beta": {
+            "Features": [
+                "Added possibility to change the Lyntr logo to a custom one",
+            ],
+            "Changes": [
+                "Made the changelog not display the categories if there's no content in them",
+            ],
+            "Bugs": [
+                "Fixed version comparison not working correctly",
+            ],
+            "Other": []
+        },
         "1.15.9-beta": {
             "Features": [
                 "Added special display for the official Lyntr+ account",
@@ -93,6 +111,10 @@
         lyntrUsername: "truncate max-w-[60%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
         lyntrVerifiedBadge_div: "flex h-full w-7 justify-center",
         lyntrProfileButton: "static bottom-2 flex max-w-md cursor-pointer items-center gap-4 rounded-full bg-border p-4 md:absolute md:w-[250px]",
+    }
+
+    const _PATHS_ = {
+        mainLogo: "body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.fixed.inset-x-0.bottom-0.z-50.flex.flex-col.md\\:static.md\\:flex-row > div.md\\:max-w-1\\/3.flex.w-full.min-w-full.flex-row.items-start.gap-2.px-2.py-2.md\\:w-auto.md\\:flex-col.md\\:pt-0 > button > img"
     }
 
 
@@ -445,6 +467,21 @@
 
     }
 
+    /**
+     * Custom logo
+     */
+    async function customLogo() {
+        if(!_CONFIG.customLogo.enabled) return
+        let logo = document.querySelector(_PATHS_.mainLogo)
+        if(!logo) return
+        if(logo.classList.contains(_CONFIG.customLogo.doneClassName)) return
+        if(logo) {
+            logo.src = _CONFIG.customLogo.logoURL
+        }
+        logo.classList.add(_CONFIG.customLogo.doneClassName)
+    }
+
+
 
     /**
      * Create copy buttons for each message
@@ -488,16 +525,53 @@
             return null;
         }
         // Function to test if the version string is higher than the current version
-        function isHigherVersion(currentVersion, versionToTest) {
-            let versionToTestArray = versionToTest.split(".")
-            let currentVersionArray = currentVersion.split(".")
-            for(let i = 0; i < versionToTestArray.length; i++) {
-                if(parseInt(versionToTestArray[i]) > parseInt(currentVersionArray[i])) {
-                    return true
+        function versionCompare(v1, v2, options) {
+            var lexicographical = options && options.lexicographical,
+                zeroExtend = options && options.zeroExtend,
+                v1parts = v1.split('.'),
+                v2parts = v2.split('.');
+        
+            function isValidPart(x) {
+                return (lexicographical ? /^\d+[A-Za-z]*$/ : /^\d+$/).test(x);
+            }
+        
+            if (!v1parts.every(isValidPart) || !v2parts.every(isValidPart)) {
+                return NaN;
+            }
+        
+            if (zeroExtend) {
+                while (v1parts.length < v2parts.length) v1parts.push("0");
+                while (v2parts.length < v1parts.length) v2parts.push("0");
+            }
+        
+            if (!lexicographical) {
+                v1parts = v1parts.map(Number);
+                v2parts = v2parts.map(Number);
+            }
+        
+            for (var i = 0; i < v1parts.length; ++i) {
+                if (v2parts.length == i) {
+                    return 1;
+                }
+        
+                if (v1parts[i] == v2parts[i]) {
+                    continue;
+                }
+                else if (v1parts[i] > v2parts[i]) {
+                    return 1;
+                }
+                else {
+                    return -1;
                 }
             }
-            return false
+        
+            if (v1parts.length != v2parts.length) {
+                return -1;
+            }
+        
+            return 0;
         }
+        
 
         async function isUpToDate() {
             let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js")
@@ -505,25 +579,33 @@
             // Only get the first lines of the file
             lastVersionMetaText = lastVersionMetaText.split("\n").slice(0, 10).join("\n")
             let lastVersion = extractVersionNumber(lastVersionMetaText)
-            if(isHigherVersion(VERSION, lastVersion)) {
+            let VERSION_matched = VERSION.match(/[0-9.]+/)[0]
+            let versionDiff = versionCompare(VERSION_matched, lastVersion)
+            if(versionDiff === -1) {
                 return {
                     isAnUpdate: true,
+                    comment: `[Lyntr+] AutoUpdateChecker: 🔔 An update is available for Lyntr+ v${lastVersion} (current: v${VERSION})`,
                     version: lastVersion
                 }
-            } else {
+            } else if(versionDiff === 0) {
                 return {
                     isAnUpdate: false,
+                    comment: `[Lyntr+] AutoUpdateChecker: ✅ You are up to date with the latest version of Lyntr+`,
+                    version: lastVersion
+                }
+            } else if(versionDiff === 1) {
+                return {
+                    isAnUpdate: false,
+                    comment: "[Lyntr+] AutoUpdateChecker: ✅ You are ahead of the latest version (what?)",
                     version: lastVersion
                 }
             }
+            console.error(`[Lyntr+] AutoUpdateChecker: Invalid version comparison result: ${versionDiff}`)
         }
 
 
         let UpToDate = await isUpToDate()
-
-        if(UpToDate.isAnUpdate) {
-            console.log(`[Lyntr+] An update is available for Lyntr+ v${UpToDate.version}`)
-        }
+        console.log(UpToDate.comment)
 
         let betaBox = document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX") || null
         let doAppendToBody = false
@@ -583,6 +665,7 @@
             profileButton()
             background()
             lyntTransparency()
+            customLogo()
             // =================
 
             // =================
@@ -635,6 +718,8 @@
         let CHANGELOG_TEXT = ""
         if(_VERSION_CHANGELOG_.hasOwnProperty(VERSION)) {
             for(let categoryName in _VERSION_CHANGELOG_[VERSION]) {
+                if(_VERSION_CHANGELOG_[VERSION][categoryName].length == 0) continue;
+                
                 CHANGELOG_TEXT += `<p style="margin-bottom: 10px;">${categoryName}</p>`
                 CHANGELOG_TEXT += `<ul style="margin: 0px 0px 10px 20px;list-style-type: '- ';">`
                 for(let change of _VERSION_CHANGELOG_[VERSION][categoryName]) {
