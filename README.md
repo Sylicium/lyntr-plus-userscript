@@ -7,15 +7,15 @@
 ![lyntrplus-example.png](./lyntrplus-example.png)
 
 ### Features:
-✅ Click on @mentionned peoples in lynts
-✅ Change the background
-✅ Copy into the clipboard any lynt
-✅ Change the transparency and the color of lynts
-✅ Special display for verified peoples
-✅ Change color of profile button
-✅ Update script in one click when available in the top right corner !
-🟠 Click links in messages (Coming soon...)
-❌ Make you a coffee
+- ✅ Click on @mentionned peoples in lynts
+- ✅ Change the background
+- ✅ Copy into the clipboard any lynt
+- ✅ Change the transparency and the color of lynts
+- ✅ Special display for verified peoples
+- ✅ Change color of profile button
+- ✅ Update script in one click when available in the top right corner !
+- 🟠 Click links in messages (Coming soon...)
+- ❌ Make you a coffee
 
 # How to install ?
  1. Get TamperMonkey for [Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=fr) or [Firefox](https://addons.mozilla.org/fr/firefox/addon/tampermonkey/). Or an alternative like [ViolentMonkey](https://violentmonkey.github.io/)
