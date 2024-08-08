@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.16.0
+// @version      1.16.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.16.0-beta"
+    const VERSION = "1.16.1-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -74,6 +74,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.16.1-beta": {
+            "Fixes": [
+                "Fixed copy buttons not working correctly when the mention parser was disabled",
+            ]
+        },
         "1.16.0-beta": {
             "Features": [
                 "Added possibility to change the Lyntr logo to a custom one",
@@ -500,7 +505,16 @@
             </button>`
             //copyButton.onclick = `copyToClipboard(this.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW"))`
             copyButton.onclick = () => {
-                copyToClipboard(copyButton.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW").textContent)
+                    try {
+                    let temp1 = copyButton.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW")
+                    if(!temp1) {
+                        temp1 = copyButton.parentElement.parentElement.querySelector(".max-w-[490px] .whitespace-pre-wrap .break-words .text-lg")
+                    }
+                    copyToClipboard(temp1.textContent)
+                } catch (error) {
+                    alert(`An error occured while copying the message to the clipboard. Please try again.\n${error.stack}`)
+                    console.log(error)
+                }
             }
         
             element.after(copyButton)
