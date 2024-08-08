@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.16.3
+// @version      1.17.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.16.3-beta"
+    const VERSION = "1.17.0-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -25,9 +25,14 @@
 
     // Configuration
     const _CONFIG = {
-        "parseMessageMentions": {
-            "description": "Parse message mentions (@user) and convert them to clickable links",
+        "parseMessage": {
+            "description": "Parse lynts to make mentions (@user) and links clickables.",
             "enabled": true,
+        },
+        "parseBiography": {
+            "description": "Parse biography to make mentions (@user) and links clickables.",
+            "enabled": true,
+            "doneClassName": "lp-messageParser-biography-UBKHJycTyOREcVCm", // DO NOT EDIT THIS LINE
         },
         "showScriptAuthor": {
             "description": "Display the author of the script in a special way",
@@ -74,6 +79,15 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.0-beta": {
+            "Features": [
+                "Added clickable link parsing for messages",
+                "Added clickable mention and link parsing for biographies",
+            ],
+            "Fixes": [
+                "Fixed mention parsing for users with - or _ in their name",
+            ]
+        },
         "1.16.3-beta": {
             "Fixes": [
                 "Now checking for updates without caching request (faster to get new update)"
@@ -135,6 +149,11 @@
 
     const _DATAS_ = {
         copyButtonSVG: `<svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64.00 64.00" enable-background="new 0 0 64 64" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Text-files"> <path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228 C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999 c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64 h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002 C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228 c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999 c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699 c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946 c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999 h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"></path> <path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005 c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997 C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"></path> <path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986 c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016 C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"></path> <path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997 S39.16465,29.4603004,38.6031494,29.4603004z"></path> <path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997 S29.0059509,37.5872993,28.4444485,37.5872993z"></path> </g> </g></svg>`,
+    }
+
+    const _REGEXES_ = {
+        mentionRegex: /(@[a-zA-Z0-9\_\-]+)/g,
+        url: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
     }
 
 
@@ -222,105 +241,118 @@
 
 
 
+    function parseTextToDOMElements(text) {
+
+        // Split the message by links
+        // Hello https://lyntr.com how you are ? -> [{text: "Hello ", type: "text"}, {text: "https://lyntr.com", type: "link"}, {text: " how you are ?", type: "text"}]
+        let parts = text.split(_REGEXES_.url)
+        // Transform the links into links
+        parts = parts.map(part => {
+            if(part.match(_REGEXES_.url)) {
+                return {
+                    raw: part,
+                    type: "link"
+                }
+            } else {
+                return {
+                    raw: part,
+                    type: "text"
+                }
+            }
+        })
+
+        // Parse mentions in the type text parts
+        parts = parts.map(part => {
+            if(part.type === "text") {
+                let mentionParts = part.raw.split(_REGEXES_.mentionRegex)
+                mentionParts = mentionParts.map(mentionPart => {
+                    if(mentionPart.match(_REGEXES_.mentionRegex)) {
+                        return {
+                            raw: mentionPart,
+                            type: "mention"
+                        }
+                    } else {
+                        return {
+                            raw: mentionPart,
+                            type: "text"
+                        }
+                    }
+                })
+                return mentionParts
+            } else {
+                return part
+            }
+        }).flat()
+
+        // Create the elements for each part
+        let parts_DOMElements = parts.map(part => {
+            if(part.type === "link") {
+                let elem = document.createElement("a")
+                elem.href = part.raw
+                elem.className = "lp-messageParser-link-mg9UtlHadBG510DM"
+                elem.target = "_blank"
+                elem.textContent = part.raw
+                return elem
+            } else if(part.type === "mention") {
+                let username = part.raw.replace("@", "")
+                let elem = document.createElement("a")
+                elem.href = `https://lyntr.com/@${username}`
+                elem.className = "lp-messageParser-mention-mg9UtlHadBG510DM"
+                elem.target = "_blank"
+                elem.textContent = part.raw
+                return elem
+            } else {
+                let elem = document.createElement("span")
+                elem.textContent = part.raw
+                elem.className = "lp-messageParser-text-mg9UtlHadBG510DM"
+                return elem
+            }
+        })
+
+        return parts_DOMElements
+
+    }
+
+
+
     /**
      * Parse message links and convert them to clickable links
      */
-    async function parseMessageLinks() {
-        let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)].map(x => {
-            return x.parentElement
-        })
+    async function parseMessages() {
 
-        messages.forEach(msg => {
-            try {
-                let first = msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0]
-                let second = msg.getElementsByClassName("lp-lynt-content-second-jBRHEIwW")[0]
-                let text = first.textContent
-                let linkRegex = /(https?:\/\/[^\s]+)/g
-                let parts = text.split(linkRegex)
-                parts = parts.map(part => {
-                    if(part.match(linkRegex)) {
-                        let elem = document.createElement("a")
-                        elem.href = part
-                        elem.target = "_blank"
-                        elem.textContent = part
-                        return elem
-                    } else {
-                        let elem = document.createElement("span")
-                        elem.textContent = part
-                        return elem
-                    }
-                })
-                second.innerHTML = ""
-                parts.forEach(part => {
-                    second.appendChild(part)
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        })
-    }
-
-    
-    /**
-     * Parse message mentions and convert them to links
-     */
-    async function parseMessageMentions() {
-
-        if(!_CONFIG.parseMessageMentions.enabled) return
+        if(!_CONFIG.parseMessage.enabled) return
 
         // Get all messages elements currently displayed
         let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)].map(x => {
             return x.parentElement
         })
 
-
-        
-
-
         // Loop through each message and replace mentions with links
-        messages.forEach(msg => {
+        messages.forEach(msgContainer => {
             try {
 
-                if(!(msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")?.[0])) {
+                // Parsing links in the message
+
+                if(!(msgContainer.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")?.[0])) {
 
                     let sec = document.createElement("span")
                     sec.className = _CLASSES_.lyntrContent
                     
                     sec.classList.add("lp-lynt-content-second-jBRHEIwW")
-                    msg.getElementsByClassName(_CLASSES_.lyntrContent)?.[0].classList.add(`lp-lynt-content-first-jBRHEIwW`)
-                    msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0].style.display = "none"
-                    msg.appendChild(sec)
-
+                    msgContainer.getElementsByClassName(_CLASSES_.lyntrContent)?.[0].classList.add(`lp-lynt-content-first-jBRHEIwW`)
+                    msgContainer.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0].style.display = "none"
+                    msgContainer.appendChild(sec)
                 }
 
-                let first = msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0]
-                let second = msg.getElementsByClassName("lp-lynt-content-second-jBRHEIwW")[0]
+                let first = msgContainer.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0]
+                let second = msgContainer.getElementsByClassName("lp-lynt-content-second-jBRHEIwW")[0]
 
 
-                let text = first.textContent
-                
-                // Split the message by mentions
-                // Hello @user how you are ? -> ["Hello ", "@user", " how you are ?"]
-                let mentionRegex = /(@[a-zA-Z0-9_]+)/g
-                let parts = text.split(mentionRegex)
-                // Transform the mentions into links
-                parts = parts.map(part => {
-                    if(part.match(mentionRegex)) {
-                        let username = part.replace("@", "")
-                        let elem = document.createElement("a")
-                        elem.href = `https://lyntr.com/@${username}`
-                        elem.target = "_blank"
-                        elem.textContent = part
-                        return elem
-                    } else {
-                        let elem = document.createElement("span")
-                        elem.textContent = part
-                        return elem
-                    }
-                })
+                let parts_DOMElements = parseTextToDOMElements(first.textContent)
+
                 // Join the parts back together
                 second.innerHTML = ""
-                parts.forEach(part => {
+                parts_DOMElements.forEach(part => {
                     second.appendChild(part)
                 })
                 
@@ -328,8 +360,25 @@
                 console.log(error)
             }
         })
+
     }
 
+    /**
+     * Parse biography
+     */
+    async function parseBiography() {
+        if(!_CONFIG.parseBiography.enabled) return
+        try {
+            let biography_text = document.querySelector("body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.flex.h-full.w-full.flex-col.items-center.gap-1.md\\:flex-row.md\\:items-start > div > div > div > div.mt-2 > blockquote > p")
+            if(!biography_text) return; // Already parsed or not found
+            let parsed = parseTextToDOMElements(biography_text.innerHTML).map(x => x.outerHTML).join("\n")
+            biography_text.outerHTML = `<div class="${_CONFIG.parseBiography.doneClassName}">${parsed}</div>`
+        } catch (error) {
+            console.log(`[Lyntr+][parseBiography] Error while parsing biography:`,error.stack)
+        }
+       
+
+    }
 
 
     /**
@@ -683,7 +732,8 @@
             // User settings
             // =================
             injectStyle()
-            parseMessageMentions()
+            parseMessages()
+            parseBiography()
             showScriptAuthor()
             showVerified()
             profileButton()
@@ -824,6 +874,4 @@
 
 
 })();
-
-
 
