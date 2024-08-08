@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.14.0
+// @version      1.14.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.14.0"
+    const VERSION = "1.14.1"
 
 
 
@@ -356,8 +356,10 @@
         }
 
         async function isUpToDate() {
-            let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.meta.js")
+            let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js")
             let lastVersionMetaText = await lastVersionMeta.text()
+            // Only get the first lines of the file
+            lastVersionMetaText = lastVersionMetaText.split("\n").slice(0, 10).join("\n")
             let lastVersion = extractVersionNumber(lastVersionMetaText)
             if(lastVersion != VERSION) {
                 return {
