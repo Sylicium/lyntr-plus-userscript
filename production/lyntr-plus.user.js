@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.0
+// @version      1.17.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.17.0-beta"
+    const VERSION = "1.17.1-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -79,6 +79,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.1-beta": {
+            "Fixes": [
+                "Update link not always showing the confirm box to reload the page."
+            ]
+        },
         "1.17.0-beta": {
             "Features": [
                 "Added clickable link parsing for messages",
@@ -713,7 +718,32 @@
             betaMarkUpdate.style.color = "rgb(255, 255, 255)"
             betaMarkUpdate.style.fontWeight = "bold"
             betaMarkUpdate.style.fontSize = "12px"
-            betaMarkUpdate.innerHTML = `An update is available for Lyntr+ <a href="https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js" style="color:aqua;" onclick="setTimeout(() => {if(confirm('Do you want to reload the page after updating for the changes to take effect?')) {document.location.reload()}},1000)">Click here to update to v${UpToDate.version}</a>`
+            /*
+            let onclickUpdateCode = `
+setTimeout(async () => {
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+    while(true) {
+        try {
+            let conf = confirm('Do you want to reload the page after updating for the changes to take effect?')
+            if(conf) {
+                document.location.reload()
+                break;
+            }
+        } catch(err) { console.log('false. Waiting.',err); await sleep(100000) }
+    }
+                
+},1000)
+`
+*/
+            let onclickUpdateCode = `setTimeout(async () => {
+    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+        let conf = confirm('Do you want to reload the page after updating for the changes to take effect?')
+        if(conf) {
+            document.location.reload()
+        }
+                
+},1000)`
+            betaMarkUpdate.innerHTML = `An update is available for Lyntr+ <a href="https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js" style="color:aqua;" onclick="${onclickUpdateCode}">Click here to update to v${UpToDate.version}</a>`
             document.body.appendChild(betaMarkUpdate)
         }
 
@@ -722,6 +752,7 @@
         if(doAppendToBody) { document.body.appendChild(betaBox) }
 
     }
+
 
 
     // Start Lyntr+
