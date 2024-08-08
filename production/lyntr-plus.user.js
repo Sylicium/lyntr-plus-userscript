@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.6
+// @version      1.15.7
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.6"
+    const VERSION = "1.15.7"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -26,31 +26,37 @@
     // Configuration
     const _CONFIG = {
         "parseMessageMentions": {
+            "description": "Parse message mentions (@user) and convert them to clickable links",
             "enabled": true,
         },
         "showScriptAuthor": {
+            "description": "Display the author of the script in a special way",
             "enabled": true,
         },
         "showVerified": {
+            "description": "Display verified users in a special way, in the specified color",
             "enabled": true,
             "usernameColor": "#d39e00", // Default #d39e00
-            "enableBadgeColor": true,
+            "enableBadgeColor": true, // Enable the badge color change
         },
         "profileButton": {
+            "description": "Modify the profile button color (bottom left)",
             "enabled": true,
             "color": "#7edcfd", // Default #7edcfd
         },
         "background": {
+            "description": "Modify the background of the page to a color or an image",
             "enabled": true,
-            "mode": "image", // "image" or "color"
-            "color": "",
-            "image": "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/assets/images/windows_plains.jpg",
+            "mode": "image", // "image" or "color" Select the mode between an image or a color
+            "color": "", // The color to set the background to if the mode is set to "color"
+            "image": "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/assets/images/butterfly_blue.jpeg", // The image URL for the background. You have some images on the github under ./assets/images/
             "doneClassName": "lyntr-plus-background-353CpZ7e89A6nSlP", // DO NOT EDIT THIS LINE
         },
         "lyntTransparency": {
+            "description": "Modify the transparency of the lynts",
             "enabled": true,
-            "opacity": 0.7, // Default 0.7
-            "overrideColor": "", // Default #EEEBE3
+            "opacity": 0.7, // How transparent the lynts should be (0 = invisible, 1 = opaque), Default 0.7
+            "overrideColor": "", // Should the color be overrided with a custom color ? If not, leave it empty. Default used #EEEBE3
             "doneClassName": "lyntr-plus-lyntTransparency-So3E25ENwU0FkobI", // DO NOT EDIT THIS LINE
         }
     }
