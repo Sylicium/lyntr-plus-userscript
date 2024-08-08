@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.4
+// @version      1.17.5
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.17.4-beta"
+    const VERSION = "1.17.5-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -79,6 +79,12 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.5-beta": {
+            "Fixes": [
+                "Top buttons now autoscroll to the top of the feed when clicked",
+                "Fixed error on autoscrolltop"
+            ]
+        },
         "1.17.4-beta": {
             "Features": [
                 "Top buttons now autoscroll to the top of the feed when clicked"
@@ -572,11 +578,14 @@
      * Make page auto scroll to the top
      */
     async function makeTopButtonsAutoScrollTop() {
-        document.querySelector("body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.flex.h-full.w-full.flex-col.items-center.gap-1.md\\:flex-row.md\\:items-start > div > div > div.flex.justify-evenly.md\\:justify-center.md\\:gap-10.gap-4").children[0].onclick = () => {
-            let middleBox = document.querySelector("body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.flex.h-full.w-full.flex-col.items-center.gap-1.md\\:flex-row.md\\:items-start > div > div > div.flex.h-full.w-full.flex-col.gap-2.overflow-y-auto.px-1.py-2").scrollTop = 0
-        
-            middleBox.scrollTop = 0
-        }
+        let topBoxWithFeedButtons = document.querySelector("body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.flex.h-full.w-full.flex-col.items-center.gap-1.md\\:flex-row.md\\:items-start > div > div > div.flex.justify-evenly.md\\:justify-center.md\\:gap-10.gap-4")
+        let middleFeedBox = document.querySelector("body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.flex.h-full.w-full.flex-col.items-center.gap-1.md\\:flex-row.md\\:items-start > div > div > div.flex.h-full.w-full.flex-col.gap-2.overflow-y-auto.px-1.py-2")
+        if(!topBoxWithFeedButtons) return;
+        [...topBoxWithFeedButtons.children]?.forEach(child => {
+            child.onclick = () => {
+                middleFeedBox.scrollTop = 0
+            }
+        })
     }
 
 
