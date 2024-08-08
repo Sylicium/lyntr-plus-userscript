@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.0
+// @version      1.15.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.0"
+    const VERSION = "1.15.1"
 
 
 
@@ -436,7 +436,7 @@
             betaMarkUpdate.style.color = "rgb(255, 255, 255)"
             betaMarkUpdate.style.fontWeight = "bold"
             betaMarkUpdate.style.fontSize = "12px"
-            betaMarkUpdate.innerHTML = `An update is available for Lyntr+ <a href="https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js" style="color:aqua;">Click here to update to v${UpToDate.version}</a>`
+            betaMarkUpdate.innerHTML = `An update is available for Lyntr+ <a href="https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js" style="color:aqua;" onclick="setTimeout(() => {if(confirm('Do you want to reload the page after updating for the changes to take effect?')) {document.location.reload()}},1000)">Click here to update to v${UpToDate.version}</a>`
             document.body.appendChild(betaMarkUpdate)
         }
 
