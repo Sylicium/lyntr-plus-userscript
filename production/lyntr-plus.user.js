@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.14.1
+// @version      1.14.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.14.1"
+    const VERSION = "1.14.2"
 
 
 
@@ -181,7 +181,6 @@
                     sec.classList.add("lp-lynt-content-second-jBRHEIwW")
                     msg.getElementsByClassName(_CLASSES_.lyntrContent)?.[0].classList.add(`lp-lynt-content-first-jBRHEIwW`)
                     msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0].style.display = "none"
-                    console.log("created elements")
                     msg.appendChild(sec)
 
                 }
