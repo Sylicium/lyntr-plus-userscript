@@ -68,6 +68,14 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.15.9-beta": {
+            "Features": [
+                "Added special display for the official Lyntr+ account",
+            ],
+            "Bugs": [
+
+            ]
+        },
         "1.15.8-beta": {
             "Features": [
                 "Added a changelog page for new updates"
