@@ -14,6 +14,7 @@
 ✅ Special display for verified peoples
 ✅ Change color of profile button
 ✅ Update script in one click when available in the top right corner !
+🟠 Click links in messages (Coming soon...)
 ❌ Make you a coffee
 
 # How to install ?
