@@ -7,6 +7,8 @@
 // @match        https://lyntr.com/*
 // @icon         https://lyntr.com/favicon.ico
 // @grant        none
+// @downloadURL https://raw.githubusercontent.com/Sylicium/lyntr-toolbox-script/main/production/lyntr-toolbox.user.js
+// @updateURL https://raw.githubusercontent.com/Sylicium/lyntr-toolbox-script/main/production/lyntr-toolbox.meta.js
 // ==/UserScript==
 
 (function() {
