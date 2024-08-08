@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr Toolbox
-// @version      1.5.0
+// @version      1.6.0
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
 // @author       Sylicium
@@ -32,6 +32,10 @@
             "usernameColor": "#d39e00", // Default #d39e00
             "doneClassName": "lyntr-toolbox-showVerified-Nwpfjqotfl87SgVz",
             "enableBadgeColor": true
+        },
+        "profileButton": {
+            "enabled": true,
+            "color": "#7edcfd", // Default #7edcfd
         }
     }
 
@@ -45,6 +49,7 @@
         lyntrContent: "max-w-[490px] whitespace-pre-wrap break-words text-lg",
         lyntrUsername: "truncate max-w-[60%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
         lyntrVerifiedBadge_div: "flex h-full w-7 justify-center",
+        lyntrProfileButton: "static bottom-2 flex max-w-md cursor-pointer items-center gap-4 rounded-full bg-border p-4 md:absolute md:w-[250px]",
     }
 
 
@@ -139,6 +144,14 @@
             e.classList.add(_CONFIG.showVerified.doneClassName)
         })
 
+    }
+
+    /**
+     * Modify the profile button
+     */
+    async function profileButton() {
+        if(!_CONFIG.profileButton.enabled) return
+        document.getElementsByClassName(_CLASSES_.lyntrProfileButton)?.[0]?.style.backgroundColor = _CONFIG.profileButton.color
     }
 
 
