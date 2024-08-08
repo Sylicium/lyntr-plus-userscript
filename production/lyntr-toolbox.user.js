@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr Toolbox
-// @version      1.4.3
+// @version      1.5.0
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
 // @author       Sylicium
@@ -22,7 +22,29 @@
         "parseMessageMentions": {
             "enabled": true,
             "doneClassName": "lyntr-toolbox-parseMessageMentions-wyx3z3HXfBgfqvd0"
+        },
+        "showScriptAuthor": {
+            "enabled": true,
+            "doneClassName": "lyntr-toolbox-showScriptAuthor-HU3hXfPu76FuGjZK"
+        },
+        "showVerified": {
+            "enabled": true,
+            "usernameColor": "#d39e00", // Default #d39e00
+            "doneClassName": "lyntr-toolbox-showVerified-Nwpfjqotfl87SgVz",
+            "enableBadgeColor": true
         }
+    }
+
+
+    // ---------------------------
+    // DO NOT EDIT BELOW THIS LINE
+    // ---------------------------
+
+
+    const _CLASSES_ = {
+        lyntrContent: "max-w-[490px] whitespace-pre-wrap break-words text-lg",
+        lyntrUsername: "truncate max-w-[60%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
+        lyntrVerifiedBadge_div: "flex h-full w-7 justify-center",
     }
 
 
@@ -32,8 +54,11 @@
      * @returns void
      */
     async function parseMessageMentions() {
+
+        if(!_CONFIG.parseMessageMentions.enabled) return
+
         // Get all messages elements currently displayed
-        let messages = [...document.getElementsByClassName("max-w-[490px] whitespace-pre-wrap break-words text-lg")]
+        let messages = [...document.getElementsByClassName(_CLASSES_.messageContent)]
         messages = messages.filter(elem => {
             // Only get messages that haven't been parsed yet
             return !elem.classList.contains(_CONFIG.parseMessageMentions.doneClassName)
@@ -66,11 +91,63 @@
         })
     }
 
+    /**
+     * Display the author of the script in a special way
+     */
+    async function showScriptAuthor() {
+
+        if(!_CONFIG.showScriptAuthor.enabled) return;
+
+        let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
+        elems.forEach(e => {
+            if(e.textContent == "Sylicium") {
+                e.style.color = "#FFFF00";
+                e.style.padding = "2px 5px";
+                e.style.fontSize = "24px";
+                e.style.webkitTextStroke = "1px black"
+            }
+        })
+    }
+
+
+    /**
+     * Display verified users in a special way
+     */
+    async function showVerified() {
+
+        if(!_CONFIG.showVerified.enabled) return;
+
+        let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
+        elems = elems.filter(e => {
+            return !e.classList.contains(_CONFIG.showVerified.doneClassName)
+        })
+
+
+        elems.forEach(e => {
+            let temp1 = e.nextElementSibling // Get the next element after the username
+            let temp2 = e.nextElementSibling.getElementsByClassName(_CLASSES_.lyntrVerifiedBadge_div)?.[0] // Check if the next element has a child with the class lyntrVerifiedBadge_div (meaning it's a verified badge element)
+            let badgeImg = e.nextElementSibling.getElementsByClassName("flex h-full w-7 justify-center")?.[0]?.getElementsByTagName("img")?.[0] // Double checking by getting the image element to check if it's the verified badge
+            let isVerified = badgeImg?.src == document.location.origin + "/verified.png" // Check if the image source is the verified badge itself to be sure
+            
+            // If there's the verified badge, change the style of the username
+            if(isVerified) {
+                e.style.color = _CONFIG.showVerified.usernameColor
+                if(_CONFIG.showVerified.enableBadgeColor) {
+                    badgeImg.style.filter = "opacity(0.5) drop-shadow(0 0 0 yellow)"
+                }
+            }
+            e.classList.add(_CONFIG.showVerified.doneClassName)
+        })
+
+    }
+
 
     // Start the toolbox
     (async function __start__() {
         while(true) {
-             parseMessageMentions()
+            parseMessageMentions()
+            showScriptAuthor()
+            showVerified()
 
             await sleep(250)
 
