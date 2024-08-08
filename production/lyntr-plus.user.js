@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.5
+// @version      1.15.6
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,9 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.5"
-
-
+    const VERSION = "1.15.6"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -370,6 +368,17 @@
             }
             return null;
         }
+        // Function to test if the version string is higher than the current version
+        function isHigherVersion(currentVersion, versionToTest) {
+            let versionToTestArray = versionToTest.split(".")
+            let currentVersionArray = currentVersion.split(".")
+            for(let i = 0; i < versionToTestArray.length; i++) {
+                if(parseInt(versionToTestArray[i]) > parseInt(currentVersionArray[i])) {
+                    return true
+                }
+            }
+            return false
+        }
 
         async function isUpToDate() {
             let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js")
@@ -377,7 +386,7 @@
             // Only get the first lines of the file
             lastVersionMetaText = lastVersionMetaText.split("\n").slice(0, 10).join("\n")
             let lastVersion = extractVersionNumber(lastVersionMetaText)
-            if(lastVersion != VERSION) {
+            if(isHigherVersion(VERSION, lastVersion)) {
                 return {
                     isAnUpdate: true,
                     version: lastVersion
