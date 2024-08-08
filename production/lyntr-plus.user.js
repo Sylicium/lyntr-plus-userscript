@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.12.0
+// @version      1.12.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -14,6 +14,11 @@
 
 (function() {
     'use strict';
+
+
+    const VERSION = "1.12.1"
+
+
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -270,7 +275,7 @@
             betaMark.style.fontWeight = "bold"
             betaMark.style.zIndex = "1000"
             betaMark.style.fontSize = "16px"
-            betaMark.textContent = "Lyntr+ Beta"
+            betaMark.textContent = `Lyntr+ Beta v${VERSION}`
         document.body.appendChild(betaMark)
     }
 
