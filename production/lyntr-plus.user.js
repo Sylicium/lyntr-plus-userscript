@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.12.1
+// @version      1.13.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.12.1"
+    const VERSION = "1.13.0"
 
 
 
@@ -101,12 +101,16 @@
      * Parse message mentions and convert them to links
      * @returns void
      */
+
+    /*
+
     async function parseMessageMentions() {
 
         if(!_CONFIG.parseMessageMentions.enabled) return
 
         // Get all messages elements currently displayed
         let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)]
+        messages = messages.filter(msg => !msg.classList.contains("lp-spawn-lynt-content-a8rLbG38")) // Filter out the messages temps
 
 
         // Loop through each message and replace mentions with links
@@ -136,12 +140,90 @@
                 parts.forEach(part => {
                     msg.appendChild(part)
                 })
+
+
+
+                newMsgElement = document.createElement("span")
+                newMsgElement.className = `${className} lp-spawn-lynt-content-a8rLbG38`
                 
             } catch (error) {
                 console.log(error)
             }
         })
     }
+
+    */
+
+
+    
+    async function parseMessageMentions() {
+
+        if(!_CONFIG.parseMessageMentions.enabled) return
+
+        // Get all messages elements currently displayed
+        let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)].map(x => {
+            return x.parentElement
+        })
+
+
+        
+
+
+        // Loop through each message and replace mentions with links
+        messages.forEach(msg => {
+            try {
+
+                if(!(msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")?.[0])) {
+
+                    let sec = document.createElement("span")
+                    sec.className = _CLASSES_.lyntrContent
+                    
+                    sec.classList.add("lp-lynt-content-second-jBRHEIwW")
+                    msg.getElementsByClassName(_CLASSES_.lyntrContent)?.[0].classList.add(`lp-lynt-content-first-jBRHEIwW`)
+                    msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0].style.display = "none"
+                    console.log("created elements")
+                    msg.appendChild(sec)
+
+                }
+
+                let first = msg.getElementsByClassName("lp-lynt-content-first-jBRHEIwW")[0]
+                let second = msg.getElementsByClassName("lp-lynt-content-second-jBRHEIwW")[0]
+
+
+                let text = first.textContent
+                
+                // Split the message by mentions
+                // Hello @user how you are ? -> ["Hello ", "@user", " how you are ?"]
+                let mentionRegex = /(@[a-zA-Z0-9_]+)/g
+                let parts = text.split(mentionRegex)
+                // Transform the mentions into links
+                parts = parts.map(part => {
+                    if(part.match(mentionRegex)) {
+                        let username = part.replace("@", "")
+                        let elem = document.createElement("a")
+                        elem.href = `https://lyntr.com/@${username}`
+                        elem.target = "_blank"
+                        elem.textContent = part
+                        return elem
+                    } else {
+                        let elem = document.createElement("span")
+                        elem.textContent = part
+                        return elem
+                    }
+                })
+                // Join the parts back together
+                second.innerHTML = ""
+                parts.forEach(part => {
+                    second.appendChild(part)
+                })
+                
+            } catch (error) {
+                console.log(error)
+            }
+        })
+    }
+
+
 
     /**
      * Display the author of the script in a special way
