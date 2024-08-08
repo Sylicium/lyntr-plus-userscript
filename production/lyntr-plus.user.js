@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.4
+// @version      1.15.5
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.4"
+    const VERSION = "1.15.5"
 
 
 
@@ -395,7 +395,6 @@
 
         if(UpToDate.isAnUpdate) {
             console.log(`[Lyntr+] An update is available for Lyntr+ v${UpToDate.version}`)
-            document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX").remove()
         }
 
         let betaBox = document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX") || null
