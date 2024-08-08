@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.16.2
+// @version      1.16.3
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.16.2-beta"
+    const VERSION = "1.16.3-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -74,6 +74,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.16.3-beta": {
+            "Fixes": [
+                "Now checking for updates without caching request (faster to get new update)"
+            ]
+        },
         "1.16.2-beta": {
             "Fixes": [
                 "Actually fixed copy buttons not working correctly lol",
@@ -593,7 +598,7 @@
         
 
         async function isUpToDate() {
-            let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js")
+            let lastVersionMeta = await fetch("https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js",{cache: "no-store"})
             let lastVersionMetaText = await lastVersionMeta.text()
             // Only get the first lines of the file
             lastVersionMetaText = lastVersionMetaText.split("\n").slice(0, 10).join("\n")
