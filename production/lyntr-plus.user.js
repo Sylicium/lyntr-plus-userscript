@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.10.1
+// @version      1.10.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -42,7 +42,7 @@
             "enabled": true,
             "mode": "image", // "image" or "color"
             "color": "",
-            "image": "https://github.com/Sylicium/lyntr-plus-userscript/blob/f0951084fce40847717c76ca574bbe9287870b4f/assets/images/windows_plains.jpg?raw=true",
+            "image": "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/assets/images/windows_plains.jpg",
             "doneClassName": "lyntr-plus-background-353CpZ7e89A6nSlP", // DO NOT EDIT THIS LINE
         },
         "lyntTransparency": {
