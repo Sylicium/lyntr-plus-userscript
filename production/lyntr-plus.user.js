@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.10.2
+// @version      1.11.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -155,7 +155,8 @@
             let temp1 = e.nextElementSibling // Get the next element after the username
             let temp2 = e.nextElementSibling.getElementsByClassName(_CLASSES_.lyntrVerifiedBadge_div)?.[0] // Check if the next element has a child with the class lyntrVerifiedBadge_div (meaning it's a verified badge element)
             let badgeImg = e.nextElementSibling.getElementsByClassName("flex h-full w-7 justify-center")?.[0]?.getElementsByTagName("img")?.[0] // Double checking by getting the image element to check if it's the verified badge
-            let isVerified = badgeImg?.src == document.location.origin + "/verified.png" // Check if the image source is the verified badge itself to be sure
+            let isVerified = badgeImg?.src == document.location.origin + "/verified.png"
+            || badgeImg?.src == document.location.origin + "/white_mode_verified.png" // Check if the image source is the verified badge itself to be sure
             
             // If there's the verified badge, change the style of the username
             if(isVerified) {
@@ -237,6 +238,27 @@
 
     }
 
+    /**
+     * Add a beta mark to the top right corner of the page
+     */
+    async function betaMark() {
+        if(document.getElementById("lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX")) return
+
+        let betaMark = document.createElement("div")
+            betaMark.style.position = "fixed"
+            betaMark.id = "lyntr-plus-beta-mark-IjA5RKoHXIFBxQvX"
+            betaMark.style.top = "0"
+            betaMark.style.right = "0"
+            betaMark.style.padding = "5px 10px"
+            betaMark.style.backgroundColor = "rgb(0, 0, 0, 0.75)"
+            betaMark.style.color = "rgb(255, 255, 255)"
+            betaMark.style.fontWeight = "bold"
+            betaMark.style.zIndex = "1000"
+            betaMark.style.fontSize = "16px"
+            betaMark.textContent = "Lyntr+ Beta"
+        document.body.appendChild(betaMark)
+    }
+
 
     // Start Lyntr+
     (async function __start__() {
@@ -248,10 +270,15 @@
             profileButton()
             background()
             lyntTransparency()
+            
+            betaMark()
 
             await sleep(250)
         }
     })()
+
+
+
 
 
     // Log that Lyntr+ has been loaded
