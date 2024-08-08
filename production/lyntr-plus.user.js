@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.1
+// @version      1.15.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,13 +16,13 @@
     'use strict';
 
 
-    const VERSION = "1.15.1"
+    const VERSION = "1.15.2"
 
 
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-    const copyToClipboard = (text) => { navigator.clipboard.writeText(text); alert(`Copied to clipboard`) }
+    const copyToClipboard = (text) => { navigator.clipboard.writeText(text); setTimeout(() => {alert(`Copied to clipboard`)},100) }
 
 
     // Configuration
