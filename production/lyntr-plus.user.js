@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.15.8
+// @version      1.15.9
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -16,7 +16,7 @@
     'use strict';
 
 
-    const VERSION = "1.15.8-beta"
+    const VERSION = "1.15.9-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -101,6 +101,12 @@
         let InjectedStyle = document.createElement("style")
         InjectedStyle.id = "lyntr-plus-injected-style-eKv9p9OQYXyJdfwh"
         InjectedStyle.textContent = `
+        .lp-div-username-officialaccount-J115XR3x {
+            color: #C070FF;
+            padding: 2px 5px;
+            font-size: 24px;
+            text-shadow: 1.5px 1px black;
+        }
         .lp-div-username-author-6FjpGV7F {
             color: #FFFF00;
             padding: 2px 5px;
@@ -113,6 +119,8 @@
         .lp-div-username-verified-img-rWzoWbQ2 {
             filter: opacity(0.5) drop-shadow(0 0 0 yellow);
         }
+
+
 
 
 @media only screen (min-width: 600px) {
@@ -288,12 +296,47 @@
 
         let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
         elems.forEach(e => {
-            if(e.textContent === "Sylicium") {
+            if(e.href === document.location.origin + "/@sylicium") {
                 e.classList.add("lp-div-username-author-6FjpGV7F")
             } else {
                 e.classList.remove("lp-div-username-author-6FjpGV7F")
             }
         })
+    }
+
+    /**
+     * Display the official Lyntr+ account in a special way
+     */
+    async function showOfficialAccount() {
+
+        let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
+        elems.forEach(e => {
+            if(e.href === document.location.origin + "/@lyntrplus") {
+
+                if(e.nextElementSibling?.classList.contains("lp-div-username-officialaccount-forceVerifyBadge-J115XR3x")) { return } else {
+                    let badgeElem = document.createElement("button")
+                    badgeElem.innerHTML = `<div class="">
+                        <img class="h-7 w-7 lp-div-username-verified-img-rWzoWbQ2" src="verified.png" alt="This user is verified.">
+                    </div>`
+                    badgeElem.classList.add("lp-div-username-officialaccount-forceVerifyBadge-J115XR3x")
+                    // aria-describedby="XhY4Mp3TkP" id="DfoDGjU493" data-state="closed" data-melt-tooltip-trigger="" data-tooltip-trigger="" type="button"
+                    badgeElem.setAttribute("aria-describedby", "lp-div-username-officialaccount-forceVerifyBadge-J115XR3x")
+                    badgeElem.setAttribute("data-state", "closed")
+                    badgeElem.setAttribute("data-melt-tooltip-trigger", "")
+                    badgeElem.setAttribute("data-tooltip-trigger", "")
+                    badgeElem.setAttribute("type", "button")
+                    badgeElem.setAttribute("title", "Official Lyntr+ account")
+                    e.after(badgeElem)
+                }
+                e.classList.add("lp-div-username-officialaccount-J115XR3x")
+            } else {
+                e.classList.remove("lp-div-username-officialaccount-J115XR3x")
+            }
+        })
+        // Change the display when on profile page
+        if(document.location.href === document.location.origin + "/@lyntrplus") {
+            document.getElementsByClassName("peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-2xl font-bold text-primary")[0].classList.add("lp-div-username-officialaccount-J115XR3x")
+        }
     }
 
 
@@ -521,17 +564,25 @@
     // Start Lyntr+
     (async function __start__() {
         while(true) {
-
-            injectStyle()
             
+            // =================
+            // User settings
+            // =================
+            injectStyle()
             parseMessageMentions()
             showScriptAuthor()
             showVerified()
             profileButton()
             background()
             lyntTransparency()
+            // =================
 
+            // =================
+            // Always running
+            // =================
+            showOfficialAccount()
             createCopyButtons()
+            // =================
 
             await sleep(250)
         }
@@ -625,6 +676,37 @@
     checkAutoDisplayChangelog()
 
 
+
+    // Hey ! Here's a little easter egg for you
+    // When doing the word per minute challenge, you can paste the following code in the console to automatically fill the input field with the text to type (giving you average 42000 words per minute)
+    // Unfortunately, you can't earn more than 60 points in total for this challenge.
+    /*
+
+    (function wordPerMinute() {
+        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+
+        function getText() { return [...document.getElementsByClassName("whitespace-pre-wrap font-mono text-lg")[0].children].map(x => x.textContent).join("") }
+
+        async function start() {
+            let inputElem = null
+            while(true) {
+                try {
+                    if(!inputElem) {
+                        inputElem = document.getElementsByClassName("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50")[0]
+                    }
+                    let text = getText()
+                    inputElem.value = text
+                    inputElem.dispatchEvent(new Event('input', { bubbles: true }))
+            } catch(e) { console.log("error", e) }
+                await sleep(10)
+            }
+        }
+    })();
+
+    */
+
+
 })();
+
 
 
