@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.10.0
+// @version      1.10.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -42,12 +42,12 @@
             "enabled": true,
             "mode": "image", // "image" or "color"
             "color": "",
-            "image": "https://github.com/Sylicium/lyntr-plus-userscript/blob/f0951084fce40847717c76ca574bbe9287870b4f/assets/images/facedev_irl.jpg?raw=true",
+            "image": "https://github.com/Sylicium/lyntr-plus-userscript/blob/f0951084fce40847717c76ca574bbe9287870b4f/assets/images/windows_plains.jpg?raw=true",
             "doneClassName": "lyntr-plus-background-353CpZ7e89A6nSlP", // DO NOT EDIT THIS LINE
         },
         "lyntTransparency": {
             "enabled": true,
-            "opacity": 0.7, // Default 0.8
+            "opacity": 0.7, // Default 0.7
             "overrideColor": "", // Default #EEEBE3
             "doneClassName": "lyntr-plus-lyntTransparency-So3E25ENwU0FkobI", // DO NOT EDIT THIS LINE
         }
@@ -95,12 +95,21 @@
                 parts = parts.map(part => {
                     if(part.match(mentionRegex)) {
                         let username = part.replace("@", "")
-                        return `<a href="https://lyntr.com/@${username}">${part}</a>`
+                        let elem = document.createElement("a")
+                        elem.href = `https://lyntr.com/@${username}`
+                        elem.textContent = part
+                        return elem
+                    } else {
+                        let elem = document.createElement("span")
+                        elem.textContent = part
+                        return elem
                     }
-                    return `<span>${part}</span>`
                 })
                 // Join the parts back together
-                msg.innerHTML = parts.join("")
+                msg.innerHTML = ""
+                parts.forEach(part => {
+                    msg.appendChild(part)
+                })
                 
                 // Add a class to the message to mark it as parsed
                 msg.classList.add(_CONFIG.parseMessageMentions.doneClassName);
@@ -205,10 +214,8 @@
         let overridedColor = _CONFIG.lyntTransparency.overrideColor.length > 0 ? _CONFIG.lyntTransparency.overrideColor : "#EEEBE3"
         
         lynts.forEach(lynt => {
-            console.log(lynt)
             let border = `solid 2px #${overridedColor.split("#").join("")}${Math.ceil(255*_CONFIG.lyntTransparency.opacity).toString(16)}`
             let bgColor = `#${overridedColor.split("#").join("")}${Math.ceil(255*_CONFIG.lyntTransparency.opacity).toString(16)}`
-            console.log("datas:",border, bgColor)
             lynt.style.border = border
             lynt.style.backgroundColor = bgColor
             lynt.classList.add(_CONFIG.lyntTransparency.doneClassName)
