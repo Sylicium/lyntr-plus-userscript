@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.5
+// @version      1.17.6
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -15,8 +15,10 @@
 (function() {
     'use strict';
 
+    try {
 
-    const VERSION = "1.17.5-beta"
+
+    const VERSION = "1.17.6-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -79,6 +81,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.6-beta": {
+            "Improvements": [
+                "Now reloading message DOM Elements only when needed (+performance and allowing to easylly click links in message too)"
+            ]
+        },
         "1.17.5-beta": {
             "Fixes": [
                 "Top buttons now autoscroll to the top of the feed when clicked",
@@ -379,10 +386,9 @@
                 let parts_DOMElements = parseTextToDOMElements(first.textContent)
 
                 // Join the parts back together
-                second.innerHTML = ""
-                parts_DOMElements.forEach(part => {
-                    second.appendChild(part)
-                })
+                let newInnerHTML = parts_DOMElements.map(x => x.outerHTML).join("")
+                if(second.innerHTML.trim() == newInnerHTML.trim()) return // Nothing changed
+                second.innerHTML = newInnerHTML
                 
             } catch (error) {
                 console.log(error)
@@ -967,5 +973,9 @@ setTimeout(async () => {
 
     */
 
+    } catch(error) {
+        console.error(`[Lyntr+] Error: ${error}`)
+        alert(`[Lyntr+] Lyntr+ encountered an error, please check the console for more information. If possible, update to last version of Lyntr+`)
+    }
 
 })();
