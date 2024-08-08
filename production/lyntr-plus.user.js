@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.11.0
+// @version      1.12.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -22,17 +22,14 @@
     const _CONFIG = {
         "parseMessageMentions": {
             "enabled": true,
-            "doneClassName": "lyntr-plus-parseMessageMentions-wyx3z3HXfBgfqvd0" // DO NOT EDIT THIS LINE
         },
         "showScriptAuthor": {
             "enabled": true,
-            "doneClassName": "lyntr-plus-showScriptAuthor-HU3hXfPu76FuGjZK" // DO NOT EDIT THIS LINE
         },
         "showVerified": {
             "enabled": true,
             "usernameColor": "#d39e00", // Default #d39e00
             "enableBadgeColor": true,
-            "doneClassName": "lyntr-plus-showVerified-Nwpfjqotfl87SgVz", // DO NOT EDIT THIS LINE
         },
         "profileButton": {
             "enabled": true,
@@ -70,6 +67,32 @@
 
 
     /**
+     * Inject the CSS styles
+     */
+    async function injectStyle() {
+        if(document.getElementById("lyntr-plus-injected-style-eKv9p9OQYXyJdfwh")) return
+        let InjectedStyle = document.createElement("style")
+        InjectedStyle.id = "lyntr-plus-injected-style-eKv9p9OQYXyJdfwh"
+        InjectedStyle.textContent = `
+        .lp-div-username-author-6FjpGV7F {
+            color: #FFFF00;
+            padding: 2px 5px;
+            font-size: 24px;
+            -webkit-text-stroke: 1px black;
+        }
+        .lp-div-username-verified-rWzoWbQ2 {
+            color: ${_CONFIG.showVerified.usernameColor};
+        }
+        .lp-div-username-verified-img-rWzoWbQ2 {
+            filter: opacity(0.5) drop-shadow(0 0 0 yellow);
+        }
+        `
+        document.head.appendChild(InjectedStyle)
+    }
+
+
+
+    /**
      * Parse message mentions and convert them to links
      * @returns void
      */
@@ -79,10 +102,8 @@
 
         // Get all messages elements currently displayed
         let messages = [...document.getElementsByClassName(_CLASSES_.lyntrContent)]
-        messages = messages.filter(elem => {
-            // Only get messages that haven't been parsed yet
-            return !elem.classList.contains(_CONFIG.parseMessageMentions.doneClassName)
-        })
+
+
         // Loop through each message and replace mentions with links
         messages.forEach(msg => {
             try {
@@ -111,8 +132,6 @@
                     msg.appendChild(part)
                 })
                 
-                // Add a class to the message to mark it as parsed
-                msg.classList.add(_CONFIG.parseMessageMentions.doneClassName);
             } catch (error) {
                 console.log(error)
             }
@@ -129,10 +148,9 @@
         let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
         elems.forEach(e => {
             if(e.textContent === "Sylicium") {
-                e.style.color = "#FFFF00";
-                e.style.padding = "2px 5px";
-                e.style.fontSize = "24px";
-                e.style.webkitTextStroke = "1px black"
+                e.classList.add("lp-div-username-author-6FjpGV7F")
+            } else {
+                e.classList.remove("lp-div-username-author-6FjpGV7F")
             }
         })
     }
@@ -146,9 +164,6 @@
         if(!_CONFIG.showVerified.enabled) return;
 
         let elems = [...document.getElementsByClassName(_CLASSES_.lyntrUsername)]
-        elems = elems.filter(e => {
-            return !e.classList.contains(_CONFIG.showVerified.doneClassName)
-        })
 
 
         elems.forEach(e => {
@@ -160,12 +175,12 @@
             
             // If there's the verified badge, change the style of the username
             if(isVerified) {
-                e.style.color = _CONFIG.showVerified.usernameColor
-                if(_CONFIG.showVerified.enableBadgeColor) {
-                    badgeImg.style.filter = "opacity(0.5) drop-shadow(0 0 0 yellow)"
-                }
+                e.classList.add("lp-div-username-verified-rWzoWbQ2")
+                badgeImg?.classList.add("lp-div-username-verified-img-rWzoWbQ2")
+            } else {
+                e.classList.remove("lp-div-username-verified-rWzoWbQ2")
+                badgeImg?.classList.remove("lp-div-username-verified-img-rWzoWbQ2")
             }
-            e.classList.add(_CONFIG.showVerified.doneClassName)
         })
 
     }
@@ -263,6 +278,8 @@
     // Start Lyntr+
     (async function __start__() {
         while(true) {
+
+            injectStyle()
             
             parseMessageMentions()
             showScriptAuthor()
