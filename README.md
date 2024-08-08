@@ -6,6 +6,16 @@
 
 ![lyntrplus-example.png](./lyntrplus-example.png)
 
+### Features:
+✅ Click on @mentionned peoples in lynts
+✅ Change the background
+✅ Copy into the clipboard any lynt
+✅ Change the transparency and the color of lynts
+✅ Special display for verified peoples
+✅ Change color of profile button
+✅ Update script in one click when available in the top right corner !
+❌ Make you a coffee
+
 # How to install ?
  1. Get TamperMonkey for [Chrome](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=fr) or [Firefox](https://addons.mozilla.org/fr/firefox/addon/tampermonkey/). Or an alternative like [ViolentMonkey](https://violentmonkey.github.io/)
  2. Click [here](https://github.com/Sylicium/lyntr-plus-userscript/raw/main/production/lyntr-plus.user.js) to download the script or go into the Releases on the right, then tags, and download the last version.
