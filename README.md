@@ -13,3 +13,9 @@
  2. Click on the settings
  3. In the "Last update" column, click on the row of the script to check for new updates
  
+# How to customize ?
+ 1. Click the TamperMonkey icon in your browser
+ 2. Click on the settings
+ 3. Click on the Lyntr+ userscript
+ 4. Scroll down a bit until you see `const _CONFIG`
+ 5. Everything in that section is your configuration, try to change some settings to true/false or play with the values :D
