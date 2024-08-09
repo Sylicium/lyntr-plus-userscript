@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.7
+// @version      1.18.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
 // @author       Sylicium
 // @match        https://lyntr.com/*
+// @match        https://lyntr.jnnj.xyz/*
 // @icon         https://lyntr.com/favicon.ico
 // @grant        none
 // @downloadURL https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/production/lyntr-plus.user.js
@@ -18,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.17.7-beta"
+    const VERSION = "1.18.0-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -81,6 +82,16 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.18.0-beta": {
+            "Features": [
+                "Added compatibility with the new https://lyntr.jnnj.xyz/"
+            ],
+            "Important informations": [
+                "Please note that the new domain is not yet fully supported and some features may not work correctly. Please report any issue you encounter.",
+                "A new domain will be created, fully supported and maintained in the future, stay tuned !",
+                "Join the Discodrd server to get the latest news and updates: <a href='https://discord.gg/Ke7BvbB7rz' target='_blank'>https://discord.gg/Ke7BvbB7rz</a>"
+            ]
+        },
         "1.17.7-beta": {
             "Fixes": [
                 "Fixed mention links redirecting to the user page without putting in lower case (leading to a 404 error)"
