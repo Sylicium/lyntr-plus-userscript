@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+ Nightly
-// @version      1.17.7.0
+// @version      2.0.0.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -18,7 +18,7 @@
     try {
 
 
-    const VERSION = "2.0.0.0-nightly"
+    const VERSION = "2.0.0.1-nightly"
     const _LastVersionURL_ = "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus.user.js"
 
     // Imports an general functions
@@ -72,7 +72,14 @@
             "enabled": true,
             "logoURL": "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/code-assets/logo1.png", // The URL of the logo to set
             "doneClassName": "lyntr-plus-customLogo-fFbM2sneBym9kXrE", //
-        }
+        },
+        "improveSvgIcons": {
+            "description": "Improve the SVG icons colors",
+            "enabled": true,
+            "hearts": true,
+            "messageSquare": true,
+            "follow": true,
+        },
     }
 
 
@@ -84,8 +91,10 @@
     const _VERSION_CHANGELOG_ = {
         "2.0.0-beta": {
             "Features": [
+                "Added feature to display images in full screen when clicking on them",
                 "New website for the project: <a href='https://lyntrplus.sylicium.fr/?cf=changelog1.18.0-beta'>https://lyntrplus.sylicium.fr/</a>",
                 "Created a Nightly version of the script for testing new features before they are released in the (bit more) stable version",
+                "Added improved SVG icons colors",
             ],
             "Improvements": [
                 "Reload popup spawn to reload the page when cloudflare error is detected"
@@ -212,6 +221,10 @@
         url: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
     }
 
+    let _GLOBAL_TEMP_ = {
+
+    }
+
 
     /**
      * Inject the CSS styles
@@ -294,6 +307,22 @@
 .lp-hidden {
     display: none !important;
 }
+
+.lp-imageDiv-QHGdvlPWPGeBmGUH {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #EEEBE399;
+    display: none;
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    border: solid 1px black;
+}
+
         `
         document.head.appendChild(InjectedStyle)
     }
@@ -625,8 +654,12 @@
     async function checkCloudflareError() {
         await fetch("https://lyntr.com/api/notifications").then(x=> {
             if(x.status === 403) {
-                let conf = confirm("Whoops, cloudflare is glitching again ! Click ok to reload the page");
-                if(conf) { document.location.reload() }
+                // If the last popup was more than 1 minute ago, show the popup
+                if(Date.now() - localStorage.getItem("lp.temp.cloudFlareLastPopup") > 1000*60*1) {
+                    let conf = confirm("Whoops, cloudflare is glitching again ! Click ok to reload the page");
+                    if(conf) { document.location.reload() }
+                    localStorage.setItem("lp.temp.cloudFlareLastPopup",Date.now())
+                }
             }
         })
     }
@@ -851,7 +884,7 @@ setTimeout(async () => {
         settingsDiv.style.left = "0";
         settingsDiv.style.width = "100%";
         settingsDiv.style.height = "100%";
-        settingsDiv.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
+        settingsDiv.style.backgroundColor = "#EEEBE3BB";
         settingsDiv.style.display = "none";
         settingsDiv.style.zIndex = "99999";
         settingsDiv.style.alignItems = "center";
@@ -870,11 +903,120 @@ setTimeout(async () => {
         settingsDiv.appendChild(settingsCloseButton);
         document.body.appendChild(settingsDiv);
 
+    }
 
+
+
+    async function loadImageDisplayer() {
+
+        // image contained within the div, occupying maxmimum of 75% of the div's width or height
+        let imageDiv = document.createElement("div");
+        imageDiv.id = "lp-imageDiv-QHGdvlPWPGeBmGUH";
+        imageDiv.classList.add("lp-imageDiv-QHGdvlPWPGeBmGUH");
+        imageDiv.classList.add("lp-hidden");
+
+        imageDiv.style.position = "fixed";
+        imageDiv.style.top = "0";
+        imageDiv.style.left = "0";
+        imageDiv.style.width = "100%";
+        imageDiv.style.height = "100%";
+        imageDiv.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+        imageDiv.style.display = "none";
+        imageDiv.style.zIndex = "99999";
+        imageDiv.style.alignItems = "center";
+        imageDiv.style.justifyContent = "center";
+        imageDiv.style.display = "flex";
+        imageDiv.style.border = "solid 1px black";
+
+        let img = document.createElement("img");
+        img.id = "lp-imageDiv-image-1-WwF0dUex8IGfDix3";
+        img.src = "https://cdn.lyntr.com/lyntr/8979867265951744.webp?v=0.6178310513601675";
+        img.style.maxWidth = "75%";
+        img.style.maxHeight = "75%";
+        img.style.objectFit = "contain";
+        img.style.boxShadow = "0px 0px 50px black";
+        img.style.borderRadius = "25px";
+
+        
+        imageDiv.appendChild(img);
+
+
+        let underText = document.createElement("div");
+        underText.textContent = "Click anywhere to close";
+
+        imageDiv.appendChild(underText);
+
+
+        document.body.appendChild(imageDiv);
+
+
+        imageDiv.addEventListener("click", (event) => {
+            if (event.target === imageDiv) {
+                imageDiv.classList.add("lp-hidden");
+            }
+        });
+
+        document.body.appendChild(imageDiv);
+
+        // Function to display an image in the center of the screen
 
     }
 
 
+    /**
+     * Make the image click display bigger
+     */
+    async function makeImageClickDisplayBigger() {
+        function _showImage(url) {
+            let imageDiv_image1 = document.getElementById("lp-imageDiv-image-1-WwF0dUex8IGfDix3")
+            console.log("imageDiv_image1",imageDiv_image1)
+            let imageDiv = document.getElementById("lp-imageDiv-QHGdvlPWPGeBmGUH")
+            console.log("imageDiv",imageDiv)
+
+            if(imageDiv_image1 && imageDiv) {
+                imageDiv_image1.src = url
+                imageDiv.classList.remove("lp-hidden")
+            }
+        }
+
+        [...document.getElementsByTagName("img")].forEach(img => {
+            img.onclick = () => {
+                console.log("img clicked",img.src)
+                _showImage(img.src);
+            }
+        });
+
+    }
+
+
+    /**
+     * Improve SVG icons
+     */
+    async function improveSvgIcons() {
+        if(!_CONFIG.improveSvgIcons.enabled) return
+
+        function getListOfClassName(className) {
+            return [...document.getElementsByClassName(className)]
+        }
+        // Make hearts red
+        if(_CONFIG.improveSvgIcons.hearts === true) {
+            getListOfClassName("lucide-icon lucide lucide-heart h-6 w-6 text-primary").forEach(elem => {
+                elem.setAttribute("fill","red")
+            });
+        }
+        // Makes the message square icon white
+        if(_CONFIG.improveSvgIcons.messageSquare === true) {
+            getListOfClassName("lucide-icon lucide lucide-message-square h-6 w-6 text-primary").forEach(elem => {
+                elem.setAttribute("fill","white")
+            });
+        }
+        // Makes the follow icon green
+        if(_CONFIG.improveSvgIcons.follow === true) {
+            getListOfClassName("lucide-icon lucide lucide-user-plus h-6 w-6 text-primary").forEach(elem => {
+                elem.setAttribute("fill","#37f46b")
+            });
+        }
+    }
 
 
 
@@ -884,6 +1026,10 @@ setTimeout(async () => {
 
         async function once() {
             loadSettings()
+            loadImageDisplayer()
+            
+            document.getElementById("lyntr-plus-settings-div-1-VkaDbUPKU2ojAwyv").classList.remove("lp-hidden")
+
         }
 
         async function fast() {
@@ -901,6 +1047,7 @@ setTimeout(async () => {
                 background()
                 lyntTransparency()
                 customLogo()
+                improveSvgIcons()
                 // =================
 
                 // =================
@@ -922,6 +1069,8 @@ setTimeout(async () => {
                 // =================
                 makeTopButtonsAutoScrollTop()
                 checkCloudflareError()
+                makeImageClickDisplayBigger()
+                // =================
                 
                 await sleep(1000)
             }
@@ -1064,3 +1213,6 @@ setTimeout(async () => {
     }
 
 })();
+
+
+
