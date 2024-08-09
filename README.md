@@ -8,13 +8,18 @@
 
 ### Features:
 - ✅ Click on @mentionned peoples in lynts
+- ✅🆕 Clickable links in lynts
+- ✅🆕 Clickable mention and links in biographies
 - ✅ Change the background
 - ✅ Copy into the clipboard any lynt
 - ✅ Change the transparency and the color of lynts
 - ✅ Special display for verified peoples
+- ✅ Special display for official account
 - ✅ Change color of profile button
 - ✅ Update script in one click when available in the top right corner !
-- 🟠 Click links in messages (Coming soon...)
+- ✅ Update script in one click when available in the top right corner !
+- ✅ Customize the Lyntr logo
+- ✅🆕 Auto scroll top on feed change
 - ❌ Make you a coffee
 
 # How to install ?
