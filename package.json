@@ -1,0 +1,17 @@
+{
+  "name": "lyntr-plus-userscript",
+  "version": "1.0.0",
+  "description": "Tired of not being able to click @user tags ? You want to customize your Lyntr app ?  Do not wait more, use Lyntr+ !",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.3",
+    "express": "^4.19.2",
+    "fs": "^0.0.1-security",
+    "http": "^0.0.1-security"
+  }
+}
