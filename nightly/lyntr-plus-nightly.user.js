@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+ Nightly
-// @version      2.0.0.1
+// @version      2.0.1.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -8,8 +8,8 @@
 // @match        https://lyntr.com/*
 // @icon         https://lyntr.com/favicon.ico
 // @grant        none
-// @downloadURL https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus.user.js
-// @updateURL https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus.meta.js
+// @downloadURL https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus-nightly.user.js
+// @updateURL https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus-nightly.meta.js
 // ==/UserScript==
 
 (function() {
@@ -18,8 +18,8 @@
     try {
 
 
-    const VERSION = "2.0.0.1-nightly"
-    const _LastVersionURL_ = "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus.user.js"
+    const VERSION = "2.0.1.0-nightly"
+    const _LastVersionURL_ = "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus-nightly.user.js"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -927,6 +927,8 @@ setTimeout(async () => {
         imageDiv.style.justifyContent = "center";
         imageDiv.style.display = "flex";
         imageDiv.style.border = "solid 1px black";
+        imageDiv.style.flexDirection = "column";
+
 
         let img = document.createElement("img");
         img.id = "lp-imageDiv-image-1-WwF0dUex8IGfDix3";
@@ -941,8 +943,13 @@ setTimeout(async () => {
         imageDiv.appendChild(img);
 
 
-        let underText = document.createElement("div");
-        underText.textContent = "Click anywhere to close";
+        let underText = document.createElement("a");
+        underText.id = "lp-imageDiv-underText-1-WwF0dUex8IGfDix3";
+        underText.textContent = "Open in new tab";
+        underText.href = "#";
+        underText.style.color = "white";
+        underText.setAttribute("target", "_blank");
+
 
         imageDiv.appendChild(underText);
 
@@ -961,23 +968,26 @@ setTimeout(async () => {
         // Function to display an image in the center of the screen
 
     }
+    /**
+     * Show the image in the image displayer from the URL
+     */
+    function _showImage(url) {
+        let imageDiv_image1 = document.getElementById("lp-imageDiv-image-1-WwF0dUex8IGfDix3")
+        let imageDiv = document.getElementById("lp-imageDiv-QHGdvlPWPGeBmGUH")
+        let underText = document.getElementById("lp-imageDiv-underText-1-WwF0dUex8IGfDix3")
+
+        if(imageDiv_image1 && imageDiv) {
+            imageDiv_image1.src = url
+            underText.href = url
+            imageDiv.classList.remove("lp-hidden")
+        }
+    }
 
 
     /**
      * Make the image click display bigger
      */
     async function makeImageClickDisplayBigger() {
-        function _showImage(url) {
-            let imageDiv_image1 = document.getElementById("lp-imageDiv-image-1-WwF0dUex8IGfDix3")
-            console.log("imageDiv_image1",imageDiv_image1)
-            let imageDiv = document.getElementById("lp-imageDiv-QHGdvlPWPGeBmGUH")
-            console.log("imageDiv",imageDiv)
-
-            if(imageDiv_image1 && imageDiv) {
-                imageDiv_image1.src = url
-                imageDiv.classList.remove("lp-hidden")
-            }
-        }
 
         [...document.getElementsByTagName("img")].forEach(img => {
             img.onclick = () => {
