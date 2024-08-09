@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+ Nightly
-// @version      2.0.1.0
+// @version      2.0.1.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -18,7 +18,7 @@
     try {
 
 
-    const VERSION = "2.0.1.0-nightly"
+    const VERSION = "2.0.1.1-nightly"
     const _LastVersionURL_ = "https://raw.githubusercontent.com/Sylicium/lyntr-plus-userscript/main/nightly/lyntr-plus-nightly.user.js"
 
     // Imports an general functions
@@ -1037,9 +1037,7 @@ setTimeout(async () => {
         async function once() {
             loadSettings()
             loadImageDisplayer()
-            
-            document.getElementById("lyntr-plus-settings-div-1-VkaDbUPKU2ojAwyv").classList.remove("lp-hidden")
-
+           
         }
 
         async function fast() {
