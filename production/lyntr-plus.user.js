@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.17.6
+// @version      1.17.7
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -18,7 +18,7 @@
     try {
 
 
-    const VERSION = "1.17.6-beta"
+    const VERSION = "1.17.7-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -81,6 +81,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.17.7-beta": {
+            "Fixes": [
+                "Fixed mention links redirecting to the user page without putting in lower case (leading to a 404 error)"
+            ]
+        },
         "1.17.6-beta": {
             "Improvements": [
                 "Now reloading message DOM Elements only when needed (+performance and allowing to easylly click links in message too)"
@@ -328,7 +333,7 @@
                 elem.textContent = part.raw
                 return elem
             } else if(part.type === "mention") {
-                let username = part.raw.replace("@", "")
+                let username = part.raw.replace("@", "").toLowerCase()
                 let elem = document.createElement("a")
                 elem.href = `https://lyntr.com/@${username}`
                 elem.className = "lp-messageParser-mention-mg9UtlHadBG510DM"
