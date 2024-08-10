@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.18.3
+// @version      1.19.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,12 +19,19 @@
     try {
 
 
-    const VERSION = "1.18.3-beta"
+    const VERSION = "1.19.0-beta"
 
-    // Imports an general functions
+    // Imports and general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+    // @deprecated - Added in vanilla version
     const copyToClipboard = (text) => { navigator.clipboard.writeText(text); setTimeout(() => {alert(`Copied to clipboard`)},100) }
-
+    const mapObject = (obj, callback) => {
+        let newObj = {};
+        for (const [key, value] of Object.entries(obj)) {
+            newObj[key] = callback(key, value);
+        }
+        return newObj;
+    }
 
     // Configuration
     const _CONFIG = {
@@ -82,6 +89,14 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.19.0-beta": {
+            "Changes": [
+                "Updated the way script works to better support future features"
+            ],
+            "Features": [
+                "Added BOT mark for bot accounts. If you own a bot account, come on the <a href='https://discord.gg/Ke7BvbB7rz' target='_blank'>Third Party Developer Discord</a> to ask and have the mark added."
+            ]
+        },
         "1.18.3-beta": {
             "Fixes": [
                 "Fixed clickable @mention redirecting to lyntr.com instead of current domain"
@@ -204,9 +219,11 @@
         lyntDivReplied: "rounded-lg border-2 border-primary p-4 drop-shadow",
         lyntrContent: "md:max-w-[490px] whitespace-pre-wrap text-pretty break-words text-lg overflow-x-hidden",
         lyntrUsername: "truncate max-w-[30%] md:max-w-[50%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
+        lyntrIQCount: "py-0.25 flex select-none items-center rounded-xl border border-transparent bg-primary px-1.5 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
         lyntrVerifiedBadge_div: "flex h-full w-7 justify-center",
         lyntrProfileButton: "static bottom-2 flex max-w-md cursor-pointer items-center gap-4 rounded-full bg-border p-4 md:absolute md:w-[250px]",
     }
+
 
     const _PATHS_ = {
         mainLogo: "body > div:nth-child(1) > div.flex.w-full.justify-center > div > div > div.fixed.inset-x-0.bottom-0.z-50.flex.flex-col.md\\:static.md\\:flex-row > div.md\\:max-w-1\\/3.flex.w-full.min-w-full.flex-row.items-start.gap-2.px-2.py-2.md\\:w-auto.md\\:flex-col.md\\:pt-0 > button > img"
@@ -214,12 +231,21 @@
 
 
     const _DATAS_ = {
-        copyButtonSVG: `<svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64.00 64.00" enable-background="new 0 0 64 64" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Text-files"> <path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228 C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999 c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64 h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002 C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228 c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999 c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699 c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946 c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999 h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"></path> <path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005 c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997 C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"></path> <path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986 c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016 C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"></path> <path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997 S39.16465,29.4603004,38.6031494,29.4603004z"></path> <path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997 S29.0059509,37.5872993,28.4444485,37.5872993z"></path> </g> </g></svg>`,
+        assets: {
+            copyButtonSVG: `<svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64.00 64.00" enable-background="new 0 0 64 64" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Text-files"> <path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228 C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999 c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64 h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002 C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228 c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999 c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699 c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946 c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999 h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"></path> <path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005 c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997 C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"></path> <path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986 c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016 C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"></path> <path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997 S39.16465,29.4603004,38.6031494,29.4603004z"></path> <path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997 S29.0059509,37.5872993,28.4444485,37.5872993z"></path> </g> </g></svg>`,
+        },
+        bot_accounts: [
+            "c"
+        ]
     }
 
     const _REGEXES_ = {
         mentionRegex: /(@[a-zA-Z0-9\_\-]+)/g,
         url: /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g,
+    }
+
+    const _TEMP_ = {
+        latestPageLynts: [],
     }
 
 
@@ -305,6 +331,172 @@
         document.head.appendChild(InjectedStyle)
     }
 
+
+    class Lynt {
+        #datas
+        static Mapping = {
+            lynt: {
+                rootClassName: "flex w-full gap-3 overflow-hidden rounded-xl bg-lynt-foreground p-3 transition-colors hover:bg-border",
+                root: ".flex.w-full.gap-3.overflow-hidden.rounded-xl.bg-lynt-foreground.p-3.transition-colors.hover\\:bg-border",
+                username: "* > a",
+                displayName: "* > div > div.undefined.flex.items-start.gap-2 > div > div > div.flex.flex-grow.items-center.gap-1.overflow-hidden > a.truncate.max-w-\\[30\\%\\].md\\:max-w-\\[50\\%\\].rounded-sm.text-xl.font-bold.underline-offset-4.hover\\:underline.focus-visible\\:outline-2.focus-visible\\:outline-offset-8.focus-visible\\:outline-black",
+                avatarURL: "* > a > img",
+                verifiedImg: "* > div > div.undefined.flex.items-start.gap-2 > div > div > div.flex.flex-grow.items-center.gap-1.overflow-hidden > button > div.flex.h-full.w-7.justify-center > img.h-7.w-7",
+                iqFromRoot: "* > div > div.undefined.flex.items-start.gap-2 > div > div > div.flex.flex-grow.items-center.gap-1.overflow-hidden > span.py-0\\.25.flex.select-none.items-center.rounded-xl.border.border-transparent.bg-primary.px-1\\.5.text-base.font-semibold.text-primary-foreground.transition-colors.hover\\:bg-primary\\/90.focus\\:outline-none.focus\\:ring-2.focus\\:ring-ring.focus\\:ring-offset-2",
+                iqStandalone: "* > span.py-0\\.25.flex.select-none.items-center.rounded-xl.border.border-transparent.bg-primary.px-1\\.5.text-base.font-semibold.text-primary-foreground.transition-colors.hover\\:bg-primary\\/90.focus\\:outline-none.focus\\:ring-2.focus\\:ring-ring.focus\\:ring-offset-2",
+                content: "* > div > div.undefined.flex.items-start.gap-2 > div > span.md\\:max-w-\\[490px\\].whitespace-pre-wrap.text-pretty.break-words.text-lg.overflow-x-hidden",
+                commentCount: "* > div > div.mb-1.mt-2.flex.items-center.justify-between.gap-2 > div:nth-child(1) > div.relative.flex.flex-row.justify-between.gap-1.svelte-1phtyrl > button > span",
+                relyntCount: "* > div > div.mb-1.mt-2.flex.items-center.justify-between.gap-2 > div:nth-child(1) > button > div > button > span",
+                likeCount: "* > div > div.mb-1.mt-2.flex.items-center.justify-between.gap-2 > div:nth-child(1) > div:nth-child(3) > button > span",
+                watchCount: "* > div > div.mb-1.mt-2.flex.items-center.justify-between.gap-2 > div.ml-auto.flex.items-center.gap-2 > div:nth-child(1) > button > span",
+            }
+        };
+        constructor(lyntRootElement) {
+            let Mapping = Lynt.Mapping
+            this.#datas = {
+                author: {
+                    // match the username from any website https://anythingwebsite.com/@username
+                    username: {
+                        DOM: lyntRootElement.querySelector(Mapping.lynt.username),
+                        getValue: (e) => e?.href.match(/@(.*)/)?.[1] ?? null
+                    },
+                    displayName: {
+                        DOM: lyntRootElement.querySelector(Mapping.lynt.displayName),
+                        getValue: (e) => e?.textContent ?? null
+                    },
+                    profileURL: {
+                        DOM: lyntRootElement.querySelector(Mapping.lynt.username),
+                        getValue: (e) => e?.href ?? null
+                    },
+                    verified: {
+                        DOM: document.querySelector(Mapping.lynt.verifiedImg),
+                        getValue: (e) => Boolean(e)
+                    },
+                    avatarURL: {
+                        DOM: lyntRootElement.querySelector(Mapping.lynt.avatarURL),
+                        getValue: (e) => e?.src ?? null
+                    },
+                    iq: {
+                        DOM: lyntRootElement.querySelector(Mapping.lynt.iqFromRoot) ?? lyntRootElement.querySelector(Mapping.lynt.iqStandalone),
+                        getValue: (e) => e?.textContent ?? null
+                    }
+                },
+                content: {
+                    DOM: lyntRootElement.querySelector(Mapping.lynt.content),
+                    getValue: (e) => e?.textContent ?? null
+                },
+                id: {
+                    DOM: lyntRootElement.parentElement,
+                    getValue: (e) => e?.getAttribute("data-lynt-id")
+                },
+                commentCount: {
+                    DOM: lyntRootElement.querySelector(Mapping.lynt.commentCount),
+                    getValue: (e) => e?.textContent ?? null
+                },
+                relyntCount: {
+                    DOM: lyntRootElement.querySelector(Mapping.lynt.relyntCount),
+                    getValue: (e) => e?.textContent ?? null
+                },
+                likeCount: {
+                    DOM: lyntRootElement.querySelector(Mapping.lynt.likeCount),
+                    getValue: (e) => e?.textContent ?? null
+                },
+                watchCount: {
+                    DOM: lyntRootElement.querySelector(Mapping.lynt.watchCount),
+                    getValue: (e) => e?.textContent ?? null
+                },
+                _root: lyntRootElement
+            }
+        }
+    
+        getRawDatas() {
+            return this.#datas
+        }
+    
+        getDatas() {
+            return mapObject(this.#datas, (key, value) => {
+                // If the value if exactly form of { DOM: ..., getValue: ... }
+                if(typeof value === 'object' && value.hasOwnProperty("DOM") && value.hasOwnProperty("getValue")) {
+                    return value.getValue(value.DOM)
+                } else {
+                    return mapObject(value, (key2, value2) => {
+                        if(typeof value2 === 'object' && value2.hasOwnProperty("DOM") && value2.hasOwnProperty("getValue")) {
+                            return value2.getValue(value2.DOM)
+                        } else {
+                            return value2
+                        }
+                    })
+                }
+            })
+        }
+    
+        getDOMs() {
+            return mapObject(this.#datas, (key, value) => {
+                // If the value if exactly form of { DOM: ..., getValue: ... }
+                if(typeof value === 'object' && value.hasOwnProperty("DOM") && value.hasOwnProperty("getValue")) {
+                    return value.DOM
+                } else {
+                    return mapObject(value, (key2, value2) => {
+                        if(typeof value2 === 'object' && value2.hasOwnProperty("DOM") && value2.hasOwnProperty("getValue")) {
+                            return value2.DOM
+                        } else {
+                            return value2
+                        }
+                    })
+                }
+            })
+        }
+    
+        /**
+         * Add the bot mark to the lynt
+         */
+        addBotMark() {
+            let botMark = `<span class="py-0.25 flex select-none items-center rounded-xl border border-transparent bg-primary px-1.5 text-base font-semibold text-primary-foreground transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 lp-botmark-raOeFGI285XCUTcq">BOT</span>`
+            let DOM_authorDisplayName = this.getDOMs().author?.displayName
+            let DOM_parent = DOM_authorDisplayName?.parentElement
+            if(DOM_parent && [...DOM_parent.getElementsByClassName("lp-botmark-raOeFGI285XCUTcq")].length == 0) {
+                // Addind the bot mark
+                DOM_authorDisplayName.insertAdjacentHTML('afterend', botMark)
+            }
+        }
+        /**
+         * Remove the bot mark from the lynt
+         */
+        removeBotMark() {
+            let DOM_authorDisplayName = this.getDOMs().author?.displayName
+            let DOM_parent = DOM_authorDisplayName?.parentElement
+            if(DOM_parent) {
+                // Removing the bot mark
+                [...DOM_parent.getElementsByClassName("lp-botmark-raOeFGI285XCUTcq")].forEach(e => e.remove())
+            }
+        }
+    
+    }
+    
+    
+    //***********************************/
+    // Testing code lol
+    
+    
+    function getPageLynts() {
+            
+        //const lynts = [...document.getElementsByClassName(Mapping.lynt.rootClassName)].map(lyntRoot => {
+        const lynts = [...document.querySelectorAll(Lynt.Mapping.lynt.root)].map(lyntRoot => {
+            return new Lynt(lyntRoot)
+        })
+    
+        return lynts
+    }
+
+    /**
+     * Refresh latest page lynts
+     */
+    async function refreshLatestPageLynts() {
+        _TEMP_.latestPageLynts = getPageLynts()
+    }
+    
+    //***********************************/
+    
 
 
     function parseTextToDOMElements(text) {
@@ -460,6 +652,25 @@
                 e.classList.add("lp-div-username-author-6FjpGV7F")
             } else {
                 e.classList.remove("lp-div-username-author-6FjpGV7F")
+            }
+        })
+    }
+
+    /**
+     * Display the author of the script in a special way
+     */
+    async function showBotAccounts() {
+
+        if(!_CONFIG.showScriptAuthor.enabled) return;
+
+
+        let lynts = _TEMP_.latestPageLynts
+        
+        lynts.forEach(lynt => {
+            if(_DATAS_.bot_accounts.includes(lynt.getDatas().author.username)) {
+                lynt.addBotMark()
+            } else {
+                lynt.removeBotMark()
             }
         })
     }
@@ -641,7 +852,7 @@
     //         let copyButton = document.createElement("div")
     //         copyButton.className = "flex-shrink-0 lp-copy-button-YWffM4bH"
     //         copyButton.innerHTML = `<button role="button" aria-haspopup="dialog" aria-expanded="true" data-state="open" id="kApjniH6ae" data-melt-popover-trigger="" data-popover-trigger="">
-    //             ${_DATAS_.copyButtonSVG}
+    //             ${_DATAS_.assets.copyButtonSVG}
     //         </button>`
     //         //copyButton.onclick = `copyToClipboard(this.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW"))`
     //         copyButton.onclick = () => {
@@ -856,6 +1067,8 @@ setTimeout(async () => {
                 // Always running
                 // =================
                 showOfficialAccount()
+                refreshLatestPageLynts() // Refresh the latest page lynts. Some features need this to work
+                showBotAccounts() // Show BOT mark on bot accounts
                 // createCopyButtons()
                 // =================
 
@@ -1006,9 +1219,13 @@ setTimeout(async () => {
 
     */
 
+
     } catch(error) {
         console.error(`[Lyntr+] Error: ${error}`)
         alert(`[Lyntr+] Lyntr+ encountered an error, please check the console for more information. If possible, update to last version of Lyntr+`)
     }
 
 })();
+
+
+
