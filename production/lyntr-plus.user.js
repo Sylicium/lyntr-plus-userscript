@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.19.0
+// @version      1.20.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.19.0-beta"
+    const VERSION = "1.20.0-beta"
 
     // Imports and general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -89,6 +89,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.20.0-beta": {
+            "Bugs": [
+                "Fixed vanilla issue where the messages in the message tab couldn't be read"
+            ]
+        },
         "1.19.0-beta": {
             "Changes": [
                 "Updated the way script works to better support future features"
@@ -838,6 +843,41 @@
     }
 
 
+    async function readMessageOfOtherID(other_id, method="get") {
+        try {
+            let temp1 = await fetch(`https://lyntr.jnnj.xyz/api/messages/read?other_id=${other_id}`, { method: "PATCH" })
+            let temp2 = await temp1.json()
+        } catch(err) { console.log("Error:",err) }
+    }
+    async function getUserFriendFromHandle(handle){
+        try {
+            let temp1 = await fetch("https://lyntr.jnnj.xyz/api/me/friends", { method: "GET" })
+            let temp2 = await temp1.json()
+            let friendList = temp2.friends ?? []
+            let user = friendList.filter(user => user.handle === handle)?.[0] ?? null
+            return user
+        } catch(err) { console.log("Error:",err) }
+    }
+
+
+    /**
+     * Auto mark messages as read
+     */
+    async function autoMarkMessagesAsRead() {
+        // If url matches https://{any domain}/messages/@{handle}, get the handle
+        let isOnMessagePage = document.location.href.match(/https:\/\/[a-zA-Z0-9.]+\/messages\/@([a-zA-Z0-9_\-]+)/)
+        // If the url matches the message page, get the handle and mark the messages as read
+        if(isOnMessagePage) {
+            let handle = isOnMessagePage[1]
+            let friend_user = await getUserFriendFromHandle(handle)
+            let other_id = friend_user.id
+            if(friend_user && typeof friend_user.unread === "number" && friend_user.unread > 0) {
+                readMessageOfOtherID(other_id)
+            }
+        }
+    }
+
+
 
     /**
      * Create copy buttons for each message
@@ -1083,6 +1123,7 @@ setTimeout(async () => {
                 // Always running
                 // =================
                 makeTopButtonsAutoScrollTop()
+                autoMarkMessagesAsRead()
                 
                 await sleep(1000)
             }
