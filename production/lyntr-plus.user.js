@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.18.2
+// @version      1.18.3
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.18.2-beta"
+    const VERSION = "1.18.3-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -82,6 +82,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.18.3-beta": {
+            "Fixes": [
+                "Fixed clickable @mention redirecting to lyntr.com instead of current domain"
+            ]
+        },
         "1.18.2-beta": {
             "Fixes": [
                 "Fixed clickable @mention and links in lynts"
@@ -356,7 +361,7 @@
             } else if(part.type === "mention") {
                 let username = part.raw.replace("@", "").toLowerCase()
                 let elem = document.createElement("a")
-                elem.href = `https://lyntr.com/@${username}`
+                elem.href = `${document.location.origin}/@${username}`
                 elem.className = "lp-messageParser-mention-mg9UtlHadBG510DM"
                 elem.target = "_blank"
                 elem.textContent = part.raw
