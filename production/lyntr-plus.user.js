@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.18.0
+// @version      1.18.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.18.0-beta"
+    const VERSION = "1.18.1-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -82,6 +82,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.18.1-beta": {
+            "Fixes": [
+                "Removed copyButton feature as it was added in vanilla"
+            ]
+        },
         "1.18.0-beta": {
             "Features": [
                 "Added compatibility with the new https://lyntr.jnnj.xyz/"
@@ -89,7 +94,7 @@
             "Important informations": [
                 "Please note that the new domain is not yet fully supported and some features may not work correctly. Please report any issue you encounter.",
                 "A new domain will be created, fully supported and maintained in the future, stay tuned !",
-                "Join the Discodrd server to get the latest news and updates: <a href='https://discord.gg/Ke7BvbB7rz' target='_blank'>https://discord.gg/Ke7BvbB7rz</a>"
+                "Join the Discord server to get the latest news and updates: <a href='https://discord.gg/Ke7BvbB7rz' target='_blank'>https://discord.gg/Ke7BvbB7rz</a>"
             ]
         },
         "1.17.7-beta": {
@@ -615,37 +620,38 @@
     /**
      * Create copy buttons for each message
      */
-    async function createCopyButtons() {
+    // async function createCopyButtons() {
 
-        let elements = [...document.getElementsByClassName("flex flex-grow items-center gap-1 overflow-hidden")]
-        elements.forEach(element => {
+    //     let elements = [...document.getElementsByClassName("flex flex-grow items-center gap-1 overflow-hidden")]
+    //     elements.forEach(element => {
             
-            if(element.parentElement.querySelector(".lp-copy-button-YWffM4bH")) return; // If the button already exists, don't create it again
+    //         if(element.parentElement.querySelector(".lp-copy-button-YWffM4bH")) return; // If the button already exists, don't create it again
         
-            let copyButton = document.createElement("div")
-            copyButton.className = "flex-shrink-0 lp-copy-button-YWffM4bH"
-            copyButton.innerHTML = `<button role="button" aria-haspopup="dialog" aria-expanded="true" data-state="open" id="kApjniH6ae" data-melt-popover-trigger="" data-popover-trigger="">
-                ${_DATAS_.copyButtonSVG}
-            </button>`
-            //copyButton.onclick = `copyToClipboard(this.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW"))`
-            copyButton.onclick = () => {
-                    try {
-                    let temp1 = copyButton.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW")
-                    if(!temp1) {
-                        temp1 = [...copyButton.parentElement.parentElement.getElementsByClassName("max-w-[490px] whitespace-pre-wrap break-words text-lg")]?.[0]
-                    }
-                    copyToClipboard(temp1.textContent)
-                } catch (error) {
-                    alert(`An error occured while copying the message to the clipboard. Please try again.\n${error.stack}`)
-                    console.log(error)
-                }
-            }
+    //         let copyButton = document.createElement("div")
+    //         copyButton.className = "flex-shrink-0 lp-copy-button-YWffM4bH"
+    //         copyButton.innerHTML = `<button role="button" aria-haspopup="dialog" aria-expanded="true" data-state="open" id="kApjniH6ae" data-melt-popover-trigger="" data-popover-trigger="">
+    //             ${_DATAS_.copyButtonSVG}
+    //         </button>`
+    //         //copyButton.onclick = `copyToClipboard(this.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW"))`
+    //         copyButton.onclick = () => {
+    //                 try {
+    //                 let temp1 = copyButton.parentElement.parentElement.querySelector(".lp-lynt-content-first-jBRHEIwW")
+    //                 if(!temp1) {
+    //                     temp1 = [...copyButton.parentElement.parentElement.getElementsByClassName("max-w-[490px] whitespace-pre-wrap break-words text-lg")]?.[0]
+    //                 }
+    //                 copyToClipboard(temp1.textContent)
+    //             } catch (error) {
+    //                 alert(`An error occured while copying the message to the clipboard. Please try again.\n${error.stack}`)
+    //                 console.log(error)
+    //             }
+    //         }
         
-            element.after(copyButton)
+    //         element.after(copyButton)
         
-        })
+    //     })
 
-    }
+    // }
+    
 
 
     /**
@@ -839,7 +845,7 @@ setTimeout(async () => {
                 // Always running
                 // =================
                 showOfficialAccount()
-                createCopyButtons()
+                // createCopyButtons()
                 // =================
 
                 await sleep(250)
