@@ -89,7 +89,8 @@
         },
         "1.18.2-beta": {
             "Fixes": [
-                "Fixed clickable @mention and links in lynts"
+                "Fixed clickable @mention and links in lynts",
+                "Fixed special display for verified users/developer and official account not working",
             ]
         },
         "1.18.1-beta": {
