@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.18.1
+// @version      1.18.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.18.1-beta"
+    const VERSION = "1.18.2-beta"
 
     // Imports an general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -82,6 +82,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.18.2-beta": {
+            "Fixes": [
+                "Fixed clickable @mention and links in lynts"
+            ]
+        },
         "1.18.1-beta": {
             "Fixes": [
                 "Removed copyButton feature as it was added in vanilla"
@@ -191,8 +196,8 @@
     const _CLASSES_ = {
         lyntDiv: "flex w-full gap-3 rounded-xl bg-lynt-foreground p-3 transition-colors hover:bg-border",
         lyntDivReplied: "rounded-lg border-2 border-primary p-4 drop-shadow",
-        lyntrContent: "max-w-[490px] whitespace-pre-wrap break-words text-lg",
-        lyntrUsername: "truncate max-w-[60%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
+        lyntrContent: "md:max-w-[490px] whitespace-pre-wrap text-pretty break-words text-lg overflow-x-hidden",
+        lyntrUsername: "truncate max-w-[30%] md:max-w-[50%] rounded-sm text-xl font-bold underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-black",
         lyntrVerifiedBadge_div: "flex h-full w-7 justify-center",
         lyntrProfileButton: "static bottom-2 flex max-w-md cursor-pointer items-center gap-4 rounded-full bg-border p-4 md:absolute md:w-[250px]",
     }
