@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.21.0
+// @version      1.21.1
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.21.0-beta"
+    const VERSION = "1.21.1-beta"
 
     // Imports and general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -89,6 +89,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.21.1-beta": {
+            "Fixes": [
+                "Fixed website loading infinitely when the requested lynt was not found"
+            ]
+        },
         "1.21.0-beta": {
             "Features": [
                 "Added a buttont to see all the changelogs",
@@ -946,6 +951,23 @@
     }
 
 
+    /**
+     * Fix page stuck on lynt not found
+     */
+    async function fixPageStuckOnLyntNotFound() {
+        let pageURLparams = new URLSearchParams(document.location.search)
+        let lyntID = pageURLparams.get("id")
+        if(!lyntID || lyntID.length < 1) return;
+        let doesLyntExist_pre = await fetch(`${document.location.origin}/api/lynt?id=${lyntID}`, { method: "GET" })
+        if(doesLyntExist_pre.status === 404) {
+            console.log(`[Lyntr+] The lynt you were trying to access does not exist. Redirecting to the home page...`)
+            document.location.href = document.location.origin
+        }
+    }
+
+
+
+
 
     /**
      * Create copy buttons for each message
@@ -1192,6 +1214,7 @@ setTimeout(async () => {
                 // =================
                 makeTopButtonsAutoScrollTop()
                 autoMarkMessagesAsRead()
+                fixPageStuckOnLyntNotFound()
                 
                 await sleep(1000)
             }
@@ -1299,7 +1322,7 @@ setTimeout(async () => {
             </div>
             <div class="lp-changelog-footer">
                 <button class="primary-button lp-changelog-temp-button-github" id='${btn_github}'>GitHub</button>
-                <button class="primary-button lp-changelog-temp-button-see-all" id='${btn_see_all}'>${full ? `See only last` : `Complete changelog`}</button>
+                <button class="primary-button lp-changelog-temp-button-see-all" id='${btn_see_all}'>${full ? `See only last` : `See all versions`}</button>
                 <button class="primary-button" id='${btn_idontlikesplashclosebutton}'>I don't like the splash close buttons (Bruh @Epical)</button>
             </div>
             
