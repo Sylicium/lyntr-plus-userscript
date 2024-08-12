@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.20.0
+// @version      1.21.0
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.20.0-beta"
+    const VERSION = "1.21.0-beta"
 
     // Imports and general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -89,6 +89,15 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.21.0-beta": {
+            "Features": [
+                "Added a buttont to see all the changelogs",
+                "Improved the changelog display (did you see that 👀 ?)"
+            ],
+            "Fixes": [
+                "Minor fixes and code improvements"
+            ],
+        },
         "1.20.0-beta": {
             "Bugs": [
                 "Fixed vanilla issue where the messages in the message tab couldn't be read"
@@ -238,6 +247,7 @@
     const _DATAS_ = {
         assets: {
             copyButtonSVG: `<svg fill="#000000" height="24px" width="24px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64.00 64.00" enable-background="new 0 0 64 64" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Text-files"> <path d="M53.9791489,9.1429005H50.010849c-0.0826988,0-0.1562004,0.0283995-0.2331009,0.0469999V5.0228 C49.7777481,2.253,47.4731483,0,44.6398468,0h-34.422596C7.3839517,0,5.0793519,2.253,5.0793519,5.0228v46.8432999 c0,2.7697983,2.3045998,5.0228004,5.1378999,5.0228004h6.0367002v2.2678986C16.253952,61.8274002,18.4702511,64,21.1954517,64 h32.783699c2.7252007,0,4.9414978-2.1725998,4.9414978-4.8432007V13.9861002 C58.9206467,11.3155003,56.7043495,9.1429005,53.9791489,9.1429005z M7.1110516,51.8661003V5.0228 c0-1.6487999,1.3938999-2.9909999,3.1062002-2.9909999h34.422596c1.7123032,0,3.1062012,1.3422,3.1062012,2.9909999v46.8432999 c0,1.6487999-1.393898,2.9911003-3.1062012,2.9911003h-34.422596C8.5049515,54.8572006,7.1110516,53.5149002,7.1110516,51.8661003z M56.8888474,59.1567993c0,1.550602-1.3055,2.8115005-2.9096985,2.8115005h-32.783699 c-1.6042004,0-2.9097996-1.2608986-2.9097996-2.8115005v-2.2678986h26.3541946 c2.8333015,0,5.1379013-2.2530022,5.1379013-5.0228004V11.1275997c0.0769005,0.0186005,0.1504021,0.0469999,0.2331009,0.0469999 h3.9682999c1.6041985,0,2.9096985,1.2609005,2.9096985,2.8115005V59.1567993z"></path> <path d="M38.6031494,13.2063999H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0158005 c0,0.5615997,0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4542999,1.0158997-1.0158997 C39.6190491,13.6606998,39.16465,13.2063999,38.6031494,13.2063999z"></path> <path d="M38.6031494,21.3334007H16.253952c-0.5615005,0-1.0159006,0.4542999-1.0159006,1.0157986 c0,0.5615005,0.4544001,1.0159016,1.0159006,1.0159016h22.3491974c0.5615005,0,1.0158997-0.454401,1.0158997-1.0159016 C39.6190491,21.7877007,39.16465,21.3334007,38.6031494,21.3334007z"></path> <path d="M38.6031494,29.4603004H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h22.3491974c0.5615005,0,1.0158997-0.4543991,1.0158997-1.0158997 S39.16465,29.4603004,38.6031494,29.4603004z"></path> <path d="M28.4444485,37.5872993H16.253952c-0.5615005,0-1.0159006,0.4543991-1.0159006,1.0158997 s0.4544001,1.0158997,1.0159006,1.0158997h12.1904964c0.5615025,0,1.0158005-0.4543991,1.0158005-1.0158997 S29.0059509,37.5872993,28.4444485,37.5872993z"></path> </g> </g></svg>`,
+            close: `<svg width="48px" height="48px" viewBox="-32 -32 128.00 128.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--emojione-monotone" preserveAspectRatio="xMidYMid meet" fill="#000000" transform="matrix(1, 0, 0, 1, 0, 0)"><g class="lp-close-hitbox" id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-32, -32), scale(4)" d="M16,29.80873975654443C18.240378969763007,29.710600494442094,20.62955056893191,29.60211908922971,22.45616148060288,28.301187953355523C24.237348523141826,27.03260816570123,24.49091576738738,24.5124900737553,25.846081202749055,22.796259144959684C27.3155252757337,20.935301581856997,30.26535016892865,20.111662254393487,30.754751300330685,17.791551164837383C31.236979649652323,15.505444188022155,29.26740353661129,13.458516124309487,28.26049610738921,11.35020715280884C27.325220078931057,9.391883294625337,26.738247276893794,7.1458786539305645,25.030754920016623,5.806384930860084C23.3450896698867,4.484014138011205,21.06359364556471,4.375265345497651,18.946916540284032,4.043889605202798C16.96729141809753,3.733969996428152,14.967134821061896,3.4368373463170654,13.024199378372906,3.926702280597816C11.086087257991116,4.415351128943277,9.219379559143619,5.35075453858844,7.879807749356889,6.834197713969569C6.588850763660821,8.263804784042446,6.360606377218076,10.284236462045268,5.662198806030371,12.079389151436207C4.957853306298578,13.889804402166805,3.662466771347301,15.548041569700164,3.734415405502398,17.489311606844296C3.8077423830138457,19.46777118469341,5.200195153709339,21.07735121148541,6.06175237847491,22.85987703044796C7.063810720760865,24.933093777852697,7.352855256612401,27.560625456555695,9.239992025423646,28.88011907869451C11.131511716534513,30.202677257741048,13.694180256148773,29.90974563602137,16,29.80873975654443" fill="#ccc" class="lp-svg-splash-bg" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="0.64"></g><g class="lp-close-hitbox" id="SVGRepo_iconCarrier"><path d="M62 10.571L53.429 2L32 23.429L10.571 2L2 10.571L23.429 32L2 53.429L10.571 62L32 40.571L53.429 62L62 53.429L40.571 32z" fill="#000000"></path></g></svg>`
         },
         bot_accounts: [
             "c"
@@ -309,15 +319,42 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #f1f1f1;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 9999;
+    max-height: 80%;
+    background-color: #EEEBE3;
+    border-radius: 10px 10px 0px 0px;
+    display: flex;
+    flex-direction: column;
 }
 
 
-.lp-changelog2 > .primary-button {
+.lp-changelog-content {
+    overflow-y: auto;
+    flex: 1;
+    margin-bottom: 20px;
+}
+.lp-changelog-footer {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+
+.lp-changelog-close-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 15px;
+}
+.lp-changelog-close-button > svg .lp-close-hitbox {
+    cursor: pointer;
+}
+
+.lp-changelog-footer > .primary-button {
     display: inline-block;
     padding: 10px 20px;
     background-color: #007bff;
@@ -326,10 +363,41 @@
     border-radius: 5px;
     transition: 0.3s all;
 }
-.lp-changelog2 > .primary-button:hover {
+.lp-changelog-footer > .primary-button:hover {
     transition: 0.3s all;
     background-color: #0056b3;
 }
+.lp-changelog-footer > .primary-button-disabled {
+    background-color: #6c757d;
+    color: #a7a7a7;
+}
+.lp-changelog-footer > .primary-button-disabled:hover {
+    background-color: #5a6268;
+}
+
+
+
+
+.lp-changelog-version-title {
+    position: relative;
+    overflow: hidden;
+}
+.lp-changelog-version-title:before, .lp-changelog-version-title:after {
+    position: absolute;
+    top: 51%;
+    overflow: hidden;
+    width: 50%;
+    height: 1px;
+    content: '\a0';
+    background-color: rgba(0,0,0,0.1);
+    margin-left: 20px
+}
+    
+.lp-changelog-version-title:before {
+    margin-left: -300px;
+    text-align: right;
+}
+
 
 
         `
@@ -1168,50 +1236,114 @@ setTimeout(async () => {
 
 
 
-    function showChangelog() {
+    function showChangelog(full=false) {
 
         
         // Display a box the show changelog of new version in the center of the screen
         let element = document.createElement("div");
         let list = "0123456789abcdef".split("");
-        let btn_id = `lp-changelog-temp-button-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
-
+        let btn_ok = `lp-changelog-temp-button-ok-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
+        let btn_see_all = `lp-changelog-temp-button-see-all-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
+        let btn_github = `lp-changelog-temp-button-github-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
+        let btn_close = `lp-changelog-close-button-close-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
+        let btn_idontlikesplashclosebutton = `lp-changelog-close-button-idontlikesplashclosebutton-${Array(32).fill(null).map(x => list[Math.floor(Math.random() * list.length)]).join("")}`;
 
         let CHANGELOG_TEXT = ""
-        if(_VERSION_CHANGELOG_.hasOwnProperty(VERSION)) {
-            for(let categoryName in _VERSION_CHANGELOG_[VERSION]) {
-                if(_VERSION_CHANGELOG_[VERSION][categoryName].length == 0) continue;
-                
-                CHANGELOG_TEXT += `<p style="margin-bottom: 10px;">${categoryName}</p>`
-                CHANGELOG_TEXT += `<ul style="margin: 0px 0px 10px 20px;list-style-type: '- ';">`
-                for(let change of _VERSION_CHANGELOG_[VERSION][categoryName]) {
-                    CHANGELOG_TEXT += `<li>${change}</li>`
+        if(full) {
+
+            for(let VERSION in _VERSION_CHANGELOG_) {
+                CHANGELOG_TEXT += `<h1 class="lp-changelog-version-title" style="font-size: 1.5em; margin-bottom: 10px;text-align:center;">v${VERSION}</h1>`
+                CHANGELOG_TEXT += `<div class="lp-changelog-version">`
+                for(let categoryName in _VERSION_CHANGELOG_[VERSION]) {
+                    if(_VERSION_CHANGELOG_[VERSION][categoryName].length == 0) continue;
+                    
+                    CHANGELOG_TEXT += `<p style="margin-bottom: 10px;"><span style="text-decoration:underline;">${categoryName}</span>:</p>`
+                    CHANGELOG_TEXT += `<ul style="margin: 0px 0px 10px 20px;list-style-type: '• ';">`
+                    for(let change of _VERSION_CHANGELOG_[VERSION][categoryName]) {
+                        CHANGELOG_TEXT += `<li>${change}</li>`
+                    }
+                    CHANGELOG_TEXT += `</ul>`
                 }
-                CHANGELOG_TEXT += `</ul>`
+                CHANGELOG_TEXT += `</div>`
             }
         } else {
-            CHANGELOG_TEXT = `<p style="margin-bottom: 10px;">Changelog is missing for this version</p>`
+            if(_VERSION_CHANGELOG_.hasOwnProperty(VERSION)) {
+                CHANGELOG_TEXT += `<h1 class="lp-changelog-version-title" style="font-size: 1.5em; margin-bottom: 10px;text-align:center;">v${VERSION}</h1>`
+                CHANGELOG_TEXT += `<div class="lp-changelog-version">`
+                for(let categoryName in _VERSION_CHANGELOG_[VERSION]) {
+                    if(_VERSION_CHANGELOG_[VERSION][categoryName].length == 0) continue;
+                    
+                    CHANGELOG_TEXT += `<p style="margin-bottom: 10px;"><span style="text-decoration:underline;">${categoryName}</span>:</p>`
+                    CHANGELOG_TEXT += `<ul style="margin: 0px 0px 10px 20px;list-style-type: '• ';">`
+                    for(let change of _VERSION_CHANGELOG_[VERSION][categoryName]) {
+                        CHANGELOG_TEXT += `<li>${change}</li>`
+                    }
+                    CHANGELOG_TEXT += `</ul>`
+                }
+                CHANGELOG_TEXT += `</div>`
+            } else {
+                CHANGELOG_TEXT = `<p style="margin-bottom: 10px;">Changelog is missing for this version</p>`
+            }
         }
 
         element.innerHTML = `
         <div class="lp-changelog2">
-            <h1 style="font-size: 1.5em; margin-bottom: 10px;text-align:center;">Lyntr+ changelog ${VERSION}</h1>
+            <h1 style="font-size: 2em; margin-bottom: 10px;text-align:center;">Lyntr+ Changelog</h1>
+            <div class="lp-changelog-close-button" id='${btn_close}'>
+                ${_DATAS_.assets.close}
+            </div>
+            <div class="lp-changelog-content">
 
+                ${CHANGELOG_TEXT}
 
-            ${CHANGELOG_TEXT}
+            </div>
+            <div class="lp-changelog-footer">
+                <button class="primary-button lp-changelog-temp-button-github" id='${btn_github}'>GitHub</button>
+                <button class="primary-button lp-changelog-temp-button-see-all" id='${btn_see_all}'>${full ? `See only last` : `Complete changelog`}</button>
+                <button class="primary-button" id='${btn_idontlikesplashclosebutton}'>I don't like the splash close buttons (Bruh @Epical)</button>
+            </div>
             
-
-            <button class="primary-button" id='${btn_id}'>OK</button>
-            <a class="primary-button" href="https://github.com/Sylicium/lyntr-plus-userscript" target="_BLANK">GitHub</button>
         </div>
         `;
         element.className = "lp-changelog1";
 
-
-
         document.body.appendChild(element);
-        document.getElementById(btn_id).addEventListener("click", () => {
+
+
+        const splashButtonSvgPath = document.getElementById(btn_close).getElementsByClassName("lp-svg-splash-bg")?.[0]
+        if(localStorage.getItem("lyntr-plus-idontlikechangelogclosebuttonsplash") === "true") {
+            splashButtonSvgPath.setAttribute("fill","#FFFFFF00")
+        } else {
+            splashButtonSvgPath.setAttribute("fill","#CCC")
+        }
+
+        document.getElementById(btn_idontlikesplashclosebutton).addEventListener("click", () => {
+            let currentChoice = localStorage.getItem("lyntr-plus-idontlikechangelogclosebuttonsplash") === "true"
+            let newChoice_idontlike = !currentChoice
+            localStorage.setItem("lyntr-plus-idontlikechangelogclosebuttonsplash", newChoice_idontlike)
+            if(newChoice_idontlike) {
+                // I don't like the splash close button
+                document.getElementById(btn_close).getElementsByClassName("lp-svg-splash-bg")?.[0].setAttribute("fill","#FFFFFF00")
+            } else {
+                // I like the splash close button
+                document.getElementById(btn_close).getElementsByClassName("lp-svg-splash-bg")?.[0].setAttribute("fill","#CCC")
+            }
+            
+        })
+
+        let closeHitboxes = [...document.getElementById(btn_close).getElementsByClassName("lp-close-hitbox")]
+        for(let hitbox of closeHitboxes) {
+            hitbox.addEventListener("click", () => {
+                element.remove();
+            })
+        }
+
+        document.getElementById(btn_see_all).addEventListener("click", () => {
             element.remove();
+            showChangelog(!full)
+        })
+        document.getElementById(btn_github).addEventListener("click", () => {
+            window.open("https://github.com/Sylicium/lyntr-plus-userscript", "_BLANK")
         })
 
     }
@@ -1260,6 +1392,425 @@ setTimeout(async () => {
 
     */
 
+    
+    let questions = [
+        {
+            id: 'AGI',
+            answer: 'artificialgeneralintelligence',
+            win: 4,
+            lose: -3
+        },
+        {
+            id: 'CatQuestion',
+            answer: true,
+            win: 1,
+            lose: -2
+        },
+        {
+            id: 'ShortFormContent',
+            answers: {
+                "0": 0,
+                "1": -1,
+                "2": -2,
+                "3": -3,
+                "4": -4,
+                "5": -5,
+                "6": -6,
+                "7": -7,
+                "8": -8,
+                "9": -9,
+                "10": -10,
+                "11": -11,
+                "12": -12,
+            },
+        },
+        {
+            id: 'Chemistry',
+            answer: 'francium',
+            win: 10,
+            lose: -5
+        },
+        {
+            id: 'GPT',
+            answer: 'generativepretrainedtransformer',
+            win: 5,
+            lose: -3
+        },
+        {
+            id: 'MathQuestion',
+            answer: '30',
+            win: 8,
+            lose: -20
+        },
+        {
+            id: 'ContentCreators',
+            answers: {
+                "0": 0,
+                "1": 0,
+                "2": 0,
+                "3": 0,
+                "4": -1,
+                "5": -1,
+                "6": -1,
+                "7": -1,
+                "8": -2,
+                "9": -2,
+                "10": -2,
+                "11": -2,
+                "12": -3,
+                "13": -3,
+                "14": -3,
+                "15": -3,
+                "16": -4,
+                "17": -4,
+                "18": -4,
+                "19": -4,
+                "20": -5,
+                "21": -5,
+                "22": -5,
+                "23": -5,
+                "24": -6,
+                "25": -6,
+                "26": -6,
+                "27": -6,
+                "28": -7,
+                "29": -7,
+                "30": -7,
+                "31": -7,
+                "32": -8,
+                "33": -8,
+                "34": -8,
+                "35": -8,
+                "36": -9,
+                "37": -9,
+                "38": -9,
+                "39": -9,
+                "40": -10,
+                "41": -10,
+                "42": -10,
+                "43": -10,
+                "44": -11,
+                "45": -11,
+                "46": -11,
+                "47": -11,
+            }
+        },
+        {
+            id: 'MathProblem',
+            answer: '10',
+            win: 15,
+            lose: -10
+        },
+        {
+            id: 'SequenceSymbol',
+            answer: 'idfk',
+            win: 10,
+            lose: -7
+        },
+        {
+            id: 'SequenceNumber',
+            answer: 42,
+            win: 9,
+            lose: -3
+        },
+        {
+            id: 'Dexerto',
+            answer: true,
+            win: -25,
+            lose: 25,
+        },
+        {
+            id: 'MathProblemComplex',
+            answer: '355',
+            win: 25,
+            lose: 0
+        },
+        {
+            id: 'TypingTest',
+            answers: {
+                "0": 0,
+                "1": 0,
+                "2": 1,
+                "3": 1,
+                "4": 2,
+                "5": 2,
+                "6": 3,
+                "7": 3,
+                "8": 4,
+                "9": 4,
+                "10": 5,
+                "11": 5,
+                "12": 6,
+                "13": 6,
+                "14": 7,
+                "15": 7,
+                "16": 8,
+                "17": 8,
+                "18": 9,
+                "19": 9,
+                "20": 10,
+                "21": 10,
+                "22": 11,
+                "23": 11,
+                "24": 12,
+                "25": 12,
+                "26": 13,
+                "27": 13,
+                "28": 14,
+                "29": 14,
+                "30": 15,
+                "31": 15,
+                "32": 16,
+                "33": 16,
+                "34": 17,
+                "35": 17,
+                "36": 18,
+                "37": 18,
+                "38": 19,
+                "39": 19,
+                "40": 20,
+                "41": 20,
+                "42": 21,
+                "43": 21,
+                "44": 22,
+                "45": 22,
+                "46": 23,
+                "47": 23,
+                "48": 24,
+                "49": 24,
+                "50": 25,
+                "51": 25,
+                "52": 26,
+                "53": 26,
+                "54": 27,
+                "55": 27,
+                "56": 28,
+                "57": 28,
+                "58": 29,
+                "59": 29,
+                "60": 30,
+                "61": 30,
+                "62": 31,
+                "63": 31,
+                "64": 32,
+                "65": 32,
+                "66": 33,
+                "67": 33,
+                "68": 34,
+                "69": 34,
+                "70": 35,
+                "71": 35,
+                "72": 36,
+                "73": 36,
+                "74": 37,
+                "75": 37,
+                "76": 38,
+                "77": 38,
+                "78": 39,
+                "79": 39,
+                "80": 40,
+                "81": 40,
+                "82": 41,
+                "83": 41,
+                "84": 42,
+                "85": 42,
+                "86": 43,
+                "87": 43,
+                "88": 44,
+                "89": 44,
+                "90": 45,
+                "91": 45,
+                "92": 46,
+                "93": 46,
+                "94": 47,
+                "95": 47,
+                "96": 48,
+                "97": 48,
+                "98": 49,
+                "99": 49,
+                "100": 50,
+                "101": 50,
+                "102": 51,
+                "103": 51,
+                "104": 52,
+                "105": 52,
+                "106": 53,
+                "107": 53,
+                "108": 54,
+                "109": 54,
+                "110": 55,
+                "111": 55,
+                "112": 56,
+                "113": 56,
+                "114": 57,
+                "115": 57,
+                "116": 58,
+                "117": 58,
+                "118": 59,
+                "119": 59,
+                "120": 60
+            }
+        },
+        {
+            id: 'AudioRick',
+            answer: true,
+            win: -13,
+            lose: 5
+        },
+        {
+            id: 'Degree',
+            answer: true,
+            win: 0,
+            lose: -5
+        },
+        {
+            id: 'AudioAgeOfWar',
+            answer: true,
+            win: 15,
+            lose: -5
+        },
+        {
+            id: 'British',
+            answer: true,
+            win: -10,
+            lose: 1,
+        },
+        {
+            id: 'Kubernete',
+            answer: true,
+            win: -3,
+            lose: 0
+        },
+        {
+            id: 'ReactionImage',
+            answer: true,
+            win: -10,
+            lose: 5
+        },
+        {
+            id: 'GimmickAccount',
+            answer: true,
+            win: -5,
+            lose: 5
+        }
+    ]
+
+    // Function to calulate highest score from the questions
+    function getHighestScore() {
+        let highestScore = 80;
+        let answers = []
+        for(let question of questions) {
+            if(question.hasOwnProperty('answer')) {
+                answers.push({
+                    id: question.id,
+                    answer: question.win > question.lose ? question.answer : "AAAAAAAAAAAAAA"
+                })
+                highestScore += Math.max(question.win, question.lose)
+            } else {
+
+                highestScore += Math.max(...Object.values(question.answers))
+                // Get the key for the highest value
+                let max = Math.max(...Object.values(question.answers))
+                let key = Object.keys(question.answers).find(key => question.answers[key] === max)
+                answers.push({
+                    id: question.id,
+                    answer: key
+                })
+            }
+        }
+        return {
+            score: highestScore,
+            answers: answers
+        }
+    }
+
+
+    // Function to calulate lowest score from the questions
+    function getLowestScore() {
+        let lowestScore = 80;
+        let answers = []
+        for(let question of questions) {
+            if(question.hasOwnProperty('answer')) {
+                answers.push({
+                    id: question.id,
+                    answer: question.win < question.lose ? question.answer : "AAAAAAAAAAAAAA"
+                })
+                lowestScore += Math.min(question.win, question.lose)
+            } else {
+
+                lowestScore += Math.min(...Object.values(question.answers))
+                // Get the key for the highest value
+                let min = Math.min(...Object.values(question.answers))
+                let key = Object.keys(question.answers).find(key => question.answers[key] === min)
+                answers.push({
+                    id: question.id,
+                    answer: key
+                })
+            }
+        }
+        return {
+            score: lowestScore,
+            answers: answers
+        }
+    }
+
+    function getSmort() {
+
+        function checkIfCreation() {
+            let elemList = [...document.getElementsByClassName("w-full rounded-md border-2 border-primary p-4 md:min-w-[400px] md:max-w-[400px]")]
+            for(let elem of elemList) {
+                let spanList = [...elem.getElementsByTagName("span")]
+                for(let span of spanList) {
+                    if(span.textContent == "IQ test") {
+                        return true
+                    }
+                }
+            }
+            return false
+        }
+        
+        if(checkIfCreation()) {
+            console.log([`%c \n \n[lyntr+] IQ test detected, looks like you're trying to create a new IQ test.`,
+            `[lyntr+] If you want to apply the highest score, run beSmart() in the console.`,
+            `[lyntr+] If you want to apply the lowest score, run beDumb() in the console.\n \n `].join("\n"),`color: #000; font-size: 1.2em;background-color:lightgreen;`)
+        }
+
+        let higher = {"score":283,"answers":[{"id":"AGI","answer":"artificialgeneralintelligence"},{"id":"CatQuestion","answer":true},{"id":"ShortFormContent","answer":"0"},{"id":"Chemistry","answer":"francium"},{"id":"GPT","answer":"generativepretrainedtransformer"},{"id":"MathQuestion","answer":"30"},{"id":"ContentCreators","answer":"0"},{"id":"MathProblem","answer":"10"},{"id":"SequenceSymbol","answer":"idfk"},{"id":"SequenceNumber","answer":42},{"id":"Dexerto","answer":"AAAAAAAAAAAAAA"},{"id":"MathProblemComplex","answer":"355"},{"id":"TypingTest","answer":"120"},{"id":"AudioRick","answer":"AAAAAAAAAAAAAA"},{"id":"Degree","answer":true},{"id":"AudioAgeOfWar","answer":true},{"id":"British","answer":"AAAAAAAAAAAAAA"},{"id":"Kubernete","answer":"AAAAAAAAAAAAAA"},{"id":"ReactionImage","answer":"AAAAAAAAAAAAAA"},{"id":"GimmickAccount","answer":"AAAAAAAAAAAAAA"}]}
+        let lower = {"score":-72,"answers":[{"id":"AGI","answer":"AAAAAAAAAAAAAA"},{"id":"CatQuestion","answer":"AAAAAAAAAAAAAA"},{"id":"ShortFormContent","answer":"12"},{"id":"Chemistry","answer":"AAAAAAAAAAAAAA"},{"id":"GPT","answer":"AAAAAAAAAAAAAA"},{"id":"MathQuestion","answer":"AAAAAAAAAAAAAA"},{"id":"ContentCreators","answer":"44"},{"id":"MathProblem","answer":"AAAAAAAAAAAAAA"},{"id":"SequenceSymbol","answer":"AAAAAAAAAAAAAA"},{"id":"SequenceNumber","answer":"AAAAAAAAAAAAAA"},{"id":"Dexerto","answer":true},{"id":"MathProblemComplex","answer":"AAAAAAAAAAAAAA"},{"id":"TypingTest","answer":"0"},{"id":"AudioRick","answer":true},{"id":"Degree","answer":"AAAAAAAAAAAAAA"},{"id":"AudioAgeOfWar","answer":"AAAAAAAAAAAAAA"},{"id":"British","answer":true},{"id":"Kubernete","answer":true},{"id":"ReactionImage","answer":true},{"id":"GimmickAccount","answer":true}]}
+        // Function to apply score in the localStorage
+        function applyScore(type, answers) {
+            for(let answer of answers) {
+                localStorage.setItem(answer.id, `${answer.answer}`)
+            }
+            localStorage.setItem("current_question", "20")
+            localStorage.setItem("lyntr-plus-beSmort", "true")
+            localStorage.setItem("lyntr-plus-beSmort-applied",type)
+        }
+    
+        window.beSmart  = function() {
+            applyScore("highest", higher.answers)
+            console.log(`%cCongrats! You are now smart (${higher.score} IQ) !`, `color: #009900; font-size: 2em;`)
+            console.log(`Automatically reloading in 3 second...`)
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
+        }
+        window.beDumb   = function() {
+            applyScore("lowest", lower.answers)
+            console.log(`%cCongrats! You are now dumb (${lower.score} IQ) !`, `color: #990000; font-size: 2em;`)
+            console.log(`Automatically reloading in 3 second...`)
+            setTimeout(() => {
+                window.location.reload()
+            }, 3000)
+        }
+    
+    }
+    window.addEventListener("load", () => {
+        setTimeout(() => {
+            getSmort()
+        }, 1000)
+    })
+
 
     } catch(error) {
         console.error(`[Lyntr+] Error: ${error}`)
@@ -1267,6 +1818,8 @@ setTimeout(async () => {
     }
 
 })();
+
+
 
 
 
