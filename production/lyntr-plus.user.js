@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Lyntr+
-// @version      1.21.1
+// @version      1.21.2
 // @github       https://github.com/Sylicium/lyntr-plus-userscript
 // @namespace    https://lyntr.com/
 // @description  A toolbox for small and medium changes for lyntr.com ! What is it ? -> https://youtu.be/-D2L3gHqcUA
@@ -19,7 +19,7 @@
     try {
 
 
-    const VERSION = "1.21.1-beta"
+    const VERSION = "1.21.2-beta"
 
     // Imports and general functions
     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -89,6 +89,11 @@
 
 
     const _VERSION_CHANGELOG_ = {
+        "1.21.2-beta": {
+            "Fixes": [
+                "Fix not found lynt auto closer to trigger on the right page"
+            ]
+        },
         "1.21.1-beta": {
             "Fixes": [
                 "Fixed website loading infinitely when the requested lynt was not found"
@@ -956,6 +961,7 @@
      */
     async function fixPageStuckOnLyntNotFound() {
         let pageURLparams = new URLSearchParams(document.location.search)
+        if(!document.location.href.startsWith(`${document.location.origin}/?id=`)) return;
         let lyntID = pageURLparams.get("id")
         if(!lyntID || lyntID.length < 1) return;
         let doesLyntExist_pre = await fetch(`${document.location.origin}/api/lynt?id=${lyntID}`, { method: "GET" })
